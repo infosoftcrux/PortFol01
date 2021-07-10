@@ -1,0 +1,213 @@
+/* ========================== Basic Code ======================= */
+
+*{
+  box-sizing: border-box;
+}
+html{
+  Line-height: 1.15;
+}
+body{
+  margin:0;
+  padding: 0;
+  font-family: "Roboto",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  Line-height: 1.5;
+  color: #6c757d;
+  text-align: left;
+  background-color: #ffffff;
+}
+
+
+/* ======================== Header Section ======================== */
+.about-img{
+  margin-left: -100px;
+  right:-60px;
+}
+.btn{
+  padding: 10px 25px;
+  border-radius: 100px;
+}
+.btn-white{
+  background-color: #ffffff;
+  border: 2px solid #ffffff;
+}
+.btn-blue{
+  border:2.4px solid #ffffff;
+  color: #ffffff;
+}
+.hero-txt{
+  margin-top: 150px;
+}
+.typed-cursor{
+  font-size: 45px;
+  color: black;
+  opacity: 1;
+  font-weight: 200;
+  -webkit-animation: blink 0.8s infinite;
+  -moz-animation: blink 0.8s infinite;
+  -ms-animation: blink 0.8s infinite;
+  -o-animation: blink 0.8s infinite;
+  animation: blink 0.8s infinite;
+}
+@keyframes blink {
+  0% { opacity:1; }
+  50% { opacity:0; }
+  100% { opacity:1; }
+}
+        
+@-webkit-keyframes blink{
+  0% { opacity:1; }          
+  50% { opacity:0; }
+  100% { opacity:1; }
+}
+        
+@-moz-keyframes blink{
+  0% { opacity:1; }
+  50% { opacity:0; }
+  100% { opacity:1; }
+}
+
+@-ms-keyframes blink{
+  0% { opacity:1; }
+  50% { opacity:0; }
+  100% { opacity:1; }
+}
+
+@-o-keyframes blink{
+  0% { opacity:1; }
+  50% { opacity:0; }
+  100% { opacity:1; }
+}
+.position-absolute{
+  font-weight: 700;
+}
+
+
+
+/* ======================== Navigation Menu ======================== */
+a{
+  color: #ecfaf8;
+  text-decoration: none;
+  background-color: transparent;
+}
+a:hover{
+  color: #a3c5c0;
+  text-decoration: underline;
+}
+.navbar-light{
+  display: none;
+}
+.navbar-light .navbar-nav .nav-link{
+  padding: 25px 10px;
+  color:whitesmoke;
+  font-weight: 500;
+  outline: none;
+}
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active{
+  color: gray;
+}
+
+
+/* ======================== About Section ======================== */
+.blue{
+  background-color: rgb(32,125,248);
+  color: #ffffff;
+}
+.blue:hover{
+  background-color: rgb(255,255,255);
+  color: #0f6eeb;
+  border-radius: 2px solid rgb(20,109,241);
+}
+
+
+.progress {
+  border-radius: 10px;
+}
+
+.progress .progress-bar{
+  width: 0px;
+  border-radius: 10px;
+  transition: 2s;
+}
+
+.display-1{
+  font-size: 160px;
+  font-weight: 1000;
+}
+
+.position-absolute{
+  font-weight: 700;
+}
+
+
+/* ======================== Qualification ======================== */
+.ex-me{
+  margin-top: 35px;
+}
+
+
+/* ======================== portfolio Section ======================== */
+.portfolio-item .portfolio-btn{
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  border-radius:3px ;
+  opacity: 0;
+  transition: 0.5s;
+}
+.portfolio-item:hover .portfolio-btn{
+  opacity: 1;
+  width: calc(100% - 50px);
+  height: 19rem;
+  top: 30px;
+  left: 30px;
+}
+
+
+/* ======================== portfolio Section ======================== */
+.btn-social{
+  font-size: 2rem;
+}
+
+
+/* ======================== additional Media Qureies for responsiveness ======================== */
+@media screen and (max-width: 800px) {
+  .about-img{
+    padding-left: 6rem;
+    margin-top: 3rem;
+  }
+  .portfolio-item:hover .portfolio-btn{
+    height: 10rem;
+  }
+}
+@media screen and (max-width: 600px) {
+
+  .display-1{
+    font-size: 66px;
+  }
+  .position-absolute{
+    font-size: 32px;
+  }
+  .about-img{
+    padding-left: 6rem;
+    margin-top: 3rem;
+  }
+  .portfolio-item:hover .portfolio-btn{
+    height: 8rem;
+  }
+ .btn-social{
+   font-size: 22px;
+   margin-top: 5px;
+   
+ }
+ .maintxt{
+   font-size: 60px;
+ }
+.qualifitxt{
+  font-size: 20px;
+}
+}
