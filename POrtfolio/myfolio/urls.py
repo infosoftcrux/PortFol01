@@ -3,5 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-   path('',views.index,name='myfoliohome')
+   path('<userId>',views.index,name='myfoliohome'),
+   # path('login/<userId>',views.login,name='Editfolio')
 ]

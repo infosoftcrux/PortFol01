@@ -21,5 +21,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('myfolio/',include('myfolio.urls')), #Redirect path to myfolio's urls.py
+    path('',include('myfolio.urls')), #Redirect path to myfolio's urls.py
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #Managing media directory

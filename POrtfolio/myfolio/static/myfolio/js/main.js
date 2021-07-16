@@ -17,10 +17,10 @@
         var typed_str = $('.typed-text').text();
         var typed = new Typed('.typed-text-output', {
             strings: typed_str.split(', '),
-            typeSpeed: 50,
-            backSpeed: 40,
+            typeSpeed: 40,
+            backSpeed: 30,
             smartBackspace: false,
-            backDelay: 3000,
+            backDelay: 2000,
             loop: true
         });
 
@@ -72,6 +72,27 @@
         PortfolioIsoTape.isotope({ filter: $(this).data('filter') });
     });
 
+    // for managing youtube links
+    $('.videostatus').find('a').each(function () {
+        var statlink = $(this).attr('href');
+        if (statlink == "") {
+            $(this).attr('href', '#')
+            $(this).parent().removeClass('d-flex')
+            $(this).parent().addClass('d-none')
+        }
+    });
+
+    // for managing social links 
+    $('.socialbtn').find('a').each(function () {
+        var stlink = $(this).attr('href');
+        if (stlink == "") {
+            // $(this).attr('href', '#')
+            $(this).addClass('d-none');
+        }
+    });
+
+   
+
     // Skillbar
     $('.skill').waypoint(function () {
         $('.progress .progress-bar').each(function () {
@@ -79,4 +100,8 @@
         });
     }, { offset: '80%' });
 
+
+   
+
+    
 })(jQuery);
