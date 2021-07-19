@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'myfolio/css/style.css' %}">
+
+    <title>Edit folio</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="position-relative my-4  d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase  text-white" style="-webkit-text-stroke: 1px #dee2e6;">My folio</h1>
+                <h1 class="position-absolute text-uppercase text-secondary">Edit folio</h1>
+            </div>
+            {% for i in abt %}
+            <div class="text-center" style="font-family: 'Times New Roman', Times, serif;">
+                <h1>Hey!! <strong class="text-capitalize fst-italic">{{i.user_First_name}}</strong></h1>
+                <a href="{% url  'logout' i.user_id   %}" class="btn fs-4 btn-outline-secondary rounded-pill">Logout</a>
+            </div>
+            {% endfor %}
+
+
+            {% for message in messages%}
+            <div id="thank" class="my-3 text-center p-2 bg-success rounded">
+
+                <h5 class="text-white">{{message}}</h5>
+
+            </div>
+            {% endfor %}
+
+
+
+            <!-- About section -->
+            <h4 class="text-secondary text-center py-2 mt-5 text-decoration-underline">*About_Section*</h4>
+            {% for i in abt %}
+            <form class="row my-5 g-3" method="POST" action="{% url  'savedataAbout' i.user_id   %}">{% csrf_token %}
+
+                <div class="alert alert-success d-none alert-dismissible fade show" id="abottnx" role="alert">
+                    <strong>saved!</strong> Your data saved in database.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="fname" class="form-label">First_Name</label>
+                    <input type="text" class="form-control" name="fname" id="fname" placeholder="Enter your first name"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="lname" class="form-label">Last_Name</label>
+                    <input type="text" class="form-control text-capitalize" name="lname" id="lname"
+                        placeholder="Enter your last name" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="dob" class="form-label">Date_of_birth</label>
+                    <input type="date" class="form-control" name="dob" id="dob" placeholder="Enter your date of birth"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="utitle" class="form-label">Your_title</label>
+                    <input type="text" class="form-control" name="utitle" id="utitle" placeholder="Enter your title"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="hdegree" class="form-label">Your_highest_degree</label>
+                    <input type="text" class="form-control" name="hdegree" id="hdegree"
+                        placeholder="Enter your highest degree" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="exp" class="form-label">Your_Experience</label>
+                    <input type="text" class="form-control" name="exp" id="exp"
+                        placeholder="Enter your Work experience. e.g -Fresher" required>
+                </div>
+                <div class="col-md-12">
+                    <label for="animetxt" class="form-label">Titles_you_want_to_show_in_animated_text</label>
+                    <input type="text" class="form-control" name="animetxt" id="animetxt"
+                        placeholder="EAch seperated with commma(,) with one space e.g.Web developer, Ml developer"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="phonno" class="form-label">Phone_No.</label>
+                    <input type="tel" class="form-control" name="phonno" id="phonno"
+                        placeholder="Enter your phone number" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="uemail" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="uemail" id="uemail" placeholder="Enter your email"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputState" class="form-label">Freelancer_Status</label>
+                    <select id="inputState" name="freestatus" class="form-select" required>
+                        <option selected>Choose...</option>
+                        <option value="Available">Available</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label for="inputAddress" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" name="address"
+                        placeholder="Enter your full address e.g. 1234 Main St" required>
+                </div>
+                <div class="col-md-12">
+                    <label for="Description" class="form-label">About_Yourself</label>
+                    <textarea class="form-control" id="Description" rows="3" name="About"
+                        placeholder="Enter All about yourself" required></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="uimage" class="form-label">Your_Image</label>
+                    <input type="url" class="form-control" name="pimage" id="uimage"
+                        placeholder="Paste the link of  your profile picture" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="cvlink" class="form-label">Your_Resume/Cv_link</label>
+                    <input type="url" class="form-control" name="cvlink" id="cvlink"
+                        placeholder="Enter your cv link if you have!!">
+                </div>
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <button type="submit" class="btn w-25   btn-outline-secondary rounded fs-4">Save</button>
+                </div>
+            </form>
+            {% endfor %}
+
+            <!-- Skill section -->
+            <h4 class="text-secondary text-center py-2 mt-5 text-decoration-underline">*Skill_Section*</h4>
+            {% for i in abt %}
+
+            <form class="row my-4 g-3" method="POST" action="{% url  'savedataskill' i.user_id   %}">{% csrf_token %}
+                <div class="alert alert-success d-none alert-dismissible fade show" id="skilltnx" role="alert">
+                    <strong>saved!</strong> Your data saved in database.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="skillname" class="form-label">Skill_Name</label>
+                    <input type="text" class="form-control" name="skillname" id="skillname"
+                        placeholder="Enter your Skill's name" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="Skillno" class="form-label">How many percent you know this skill ?</label>
+                    <input type="number" class="form-control" min=0 max=100 name="Skillno" id="Skillno"
+                        placeholder="Enter Percentage number" required>
+                </div>
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <button type="submit" class="btn w-25   btn-outline-secondary rounded fs-4">Save</button>
+                </div>
+            </form>
+
+            {% endfor %}
+            
+            <!-- Education section -->
+            {% for i in abt %}
+            <h4 class="text-secondary text-center py-2 mt-5 text-decoration-underline">*Education_Section*</h4>
+            <form class="row my-4 g-3" method="POST" action="{% url  'savedataeducation' i.user_id   %}">{% csrf_token %}
+                <div class="col-md-4">
+                    <label for="eduname" class="form-label">Education name</label>
+                    <input type="text" class="form-control" name="eduname" id="eduname"
+                        placeholder="Enter your edcation name and this shows on portfolio in FIFO method" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="eduyear" class="form-label">Education Year</label>
+                    <input type="text" class="form-control" name="eduyear" id="eduyear"
+                        placeholder="Enter your edcation year/duration " required>
+                </div>
+                <div class="col-md-4">
+                    <label for="educollege" class="form-label">College Name</label>
+                    <input type="text" class="form-control" name="educollege" id="educollege"
+                        placeholder="Enter your college where you done this course" required>
+                </div>
+                <div class="col-md-12">
+                    <label for="edudesc" class="form-label">About this course</label>
+                    <textarea rows='3' class="form-control" name="edudesc" id="edudesc"
+                        placeholder="Tell some brief desc.. if you want!!"></textarea>
+                </div>
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <button type="submit" class="btn w-25   btn-outline-secondary rounded fs-4">Save</button>
+                </div>
+            </form>
+            {% endfor %}
+
+            <!-- Experience section -->
+            {% for i in abt %}
+            <h4 class="text-secondary text-center py-2 mt-5 text-decoration-underline">*Experience_Section*</h4>
+            <form class="row my-4 g-3" method="POST" action="{% url  'savedataexperience' i.user_id   %}">{% csrf_token %}
+                <div class="col-md-4">
+                    <label for="expname" class="form-label">Experience name</label>
+                    <input type="text" class="form-control" name="expname" id="expname"
+                        placeholder="Enter your experience name and this shows on portfolio in FIFO method" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="expyear" class="form-label">Experience duration</label>
+                    <input type="text" class="form-control" name="expyear" id="expyear"
+                        placeholder="Enter your experience year/duration " required>
+                </div>
+                <div class="col-md-4">
+                    <label for="expcompony" class="form-label">Compony Name</label>
+                    <input type="text" class="form-control" name="expcompony" id="expcompony"
+                        placeholder="Enter your compony name where you done.." required>
+                </div>
+                <div class="col-md-12">
+                    <label for="expdesc" class="form-label">About Your Experience</label>
+                    <textarea rows='3' class="form-control" name="expdesc" id="expdesc"
+                        placeholder="Tell some brief desc.." required></textarea>
+                </div>
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <button type="submit" class="btn w-25   btn-outline-secondary rounded fs-4">Save</button>
+                </div>
+            </form>
+            {% endfor %}
+
+            <!-- Projects section -->
+            {% for i in abt %}
+            <h4 class="text-secondary text-center py-2 mt-5 text-decoration-underline">*Projects_Section*</h4>
+            <form class="row my-4 g-3" method="POST" action="{% url  'savedataproject' i.user_id   %}">{% csrf_token %}
+                <div class="col-md-6">
+                    <label for="proname" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" name="proname" id="proname"
+                        placeholder="Enter your project name and this shows on portfolio in FIFO method" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="procat" class="form-label">Project Catagory_Name</label>
+                    <input type="text" class="form-control" name="procat" id="procat"
+                        placeholder="Enter your project catagory!!don't make any space!!" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="proimage" class="form-label">Project_Image</label>
+                    <input type="url" class="form-control" name="proimage" id="proimage"
+                        placeholder="paste a link of  your project picture" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="prolink" class="form-label">Your Project's YouTube Video Link</label>
+                    <input type="url" class="form-control" name="prolink" id="prolink"
+                        placeholder="Enter your project video link if you have">
+                </div>
+                <div class="col-md-12">
+                    <label for="prodesc" class="form-label">About Your Project</label>
+                    <textarea rows='3' class="form-control" name="prodesc" id="prodesc"
+                        placeholder="Tell some brief desc. about your project" required></textarea>
+                </div>
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <button type="submit" class="btn w-25   btn-outline-secondary rounded fs-4">Save</button>
+                </div>
+            </form>
+            {% endfor %}
+
+            <!-- get in touch Links section -->
+            {% for i in abt %}
+            <h4 class="text-secondary text-center py-2 mt-5 text-decoration-underline">*Get in touch Section*</h4>
+            <form class="row my-4 g-3" method="POST" action="{% url  'savedatasociallinks' i.user_id   %}">{% csrf_token %}
+                <div class="col-md-4">
+                    <label for="linkdin" class="form-label">Linkdin Link</label>
+                    <input type="url" class="form-control" name="linkdin" id="linkdin"
+                        placeholder="your linkdin account link">
+                </div>
+                <div class="col-md-4">
+                    <label for="kaggle" class="form-label">Kaggle Link</label>
+                    <input type="url" class="form-control" name="kaggle" id="kaggle"
+                        placeholder="your kaggle account link">
+                </div>
+                <div class="col-md-4">
+                    <label for="github" class="form-label">Github Link</label>
+                    <input type="url" class="form-control" name="github" id="github"
+                        placeholder="your github account link">
+                </div>
+                <div class="col-md-4">
+                    <label for="twitter" class="form-label">Twitter Link</label>
+                    <input type="url" class="form-control" name="twitter" id="twitter"
+                        placeholder="your twitter account link">
+                </div>
+                <div class="col-md-4">
+                    <label for=facebook" class="form-label">Facebook Link</label>
+                    <input type="url" class="form-control" name="facebook" id="facebook"
+                        placeholder="your facebook account link">
+                </div>
+                <div class="col-md-4">
+                    <label for="instagram" class="form-label">Instagram Link</label>
+                    <input type="url" class="form-control" name="instagram" id="instagram"
+                        placeholder="your instagram account link">
+                </div>
+
+                <div class="col-12 my-5 d-flex justify-content-center">
+                    <button type="submit" class="btn w-25   btn-outline-secondary rounded fs-4">Save</button>
+                </div>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+
+    <script>
+        // js for content hide
+        (function ($) {
+            "use strict"
+
+            if ('{{ tnx1 }}' == 1) {
+                $('#abottnx').removeClass('d-none');
+            }
+            if ('{{ tnx2 }}' == 1) {
+                $('#skilltnx').removeClass('d-none');
+            }
+
+        })(jQuery);
+    </script>
+
+</body>
+
+</html>

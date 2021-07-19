@@ -161,8 +161,8 @@ a:hover{
 }
 .portfolio-item:hover .portfolio-btn{
   opacity: 1;
-  width: calc(100% - 50px);
-  height: 19rem;
+  width: calc(100% - 50%);
+  height: calc(100% - 70%);
   top: 30px;
   left: 30px;
 }

@@ -13,10 +13,9 @@ class About (models.Model):
     user_Phone_No = models.CharField(max_length = 10)
     user_Email = models.EmailField(max_length = 254 ,unique=True)
     user_Address = models.CharField(max_length = 1200)
-    freelancer_status_choice = [('Available','Available'),('Not Available','Not Available'),]
     user_Freelancer_status = models.CharField(max_length = 20)
     user_About_Desc = models.CharField(max_length = 20000)
-    user_image = models.ImageField(upload_to = 'myfolio/images')
+    user_image = models.URLField()
     user_cv_link = models.URLField(blank = True)
 
     def __str__(self):
@@ -25,7 +24,7 @@ class About (models.Model):
 
 class Skills (models.Model):
     user_id = models.CharField(max_length = 18)
-    user_Skill_name = models.CharField(max_length = 50)
+    user_Skill_name = models.CharField(max_length = 50 ,primary_key = True)
     user_skill_knows_in_percententage = models.IntegerField()
     
     def __str__(self):
@@ -33,10 +32,10 @@ class Skills (models.Model):
     
 class Education (models.Model):
     user_id = models.CharField(max_length = 18)
-    Highest_education_name = models.CharField(max_length = 300)
+    Highest_education_name = models.CharField(max_length = 300,primary_key=True)
     Highest_education_year = models.CharField(max_length = 200 )
     Highest_education_college = models.CharField(max_length = 600)
-    Highest_education_desc = models.CharField(max_length = 1500)
+    Highest_education_desc = models.CharField(max_length = 1500 ,blank=True)
     def __str__(self):
        return f'{self.user_id} - {self.Highest_education_name}'
     
@@ -52,10 +51,10 @@ class Experience(models.Model) :
     
 class Projects (models.Model):
     user_id = models.CharField(max_length = 18)
-    project_name= models.CharField(max_length = 500)
+    project_name= models.CharField(max_length = 500,primary_key= True)
     project_catagory_name = models.CharField(max_length = 150)
     project_description = models.CharField(max_length = 20000)
-    project_image = models.ImageField(upload_to = 'myfolio/images/projects')
+    project_image = models.URLField()
     project_youTubevideo_link = models.URLField( blank = True )
     
     def __str__(self):
@@ -83,10 +82,3 @@ class Social_links (models.Model):
     def __str__(self):
         return f'{self.user_id} links'
 
-
-class loginform(models.Model):
-    user_id = models.CharField(max_length = 18 ,unique=True)
-    user_pass = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.user_id
