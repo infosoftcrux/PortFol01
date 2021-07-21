@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% for item in about %}
+    <title>MyFoLiO - {{item.user_First_name}} {{item.user_Second_name}}</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/media/{{item.user_image}}" type="image/x-icon">
+    {% endfor %}
+
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+    <!-- icon style link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- css link -->
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'myfolio/css/style.css' %}">
+
+    <!-- lity lightbox cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css">
+</head>
+
+<body>
+
+    <!-- ==================================== Navigation Menu ================================== -->
+    <nav class="navbar fixed-top  shadow-sm navbar-expand-lg bg-dark navbar-light py-3 py-lg-0 px-lg-5">
+        <a href="" class="navbar-brand ml-lg-3">
+            <h1 class="m-0 display-5 fs-3 font-weight-bold " style="font-family: 'Dancing Script', cursive;">
+                {% for i in about %}
+                <span
+                    class="text-primary text-capitalize">{{i.user_First_name}}</span><span>{{i.user_Second_name}}</span>
+                {% endfor %}
+            </h1>
+        </a>
+        <!-- button for responsive device -->
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" aria-expanded="false"
+            aria-controls="navbarCollapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse justify-content-end navbar-collapse  px-lg-3" id="navbarCollapse">
+            <div class="navbar-nav  py-0">
+                <a href="#home" class="nav-item  nav-link active">Home</a>
+                <a href="#about" class="nav-item  nav-link ">About</a>
+                <a href="#skill" id="nav_skill" class="nav-item  nav-link ">Skill</a>
+                <a href="#qualification" class=" nav-qual nav-item  nav-link ">Quality</a>
+                <a href="#project" class="nav-item nav-link ">Projects</a>
+                <a href="#contact" class="nav-item nav-link ">Contact</a>
+            </div>
+        </div>
+
+    </nav>
+    <!-- ================================ End of Navigation Menu ================================ -->
+
+
+    <!-- =============================== Header section ============================== -->
+    <div class="container-fluid d-flex align-items-center mb-5 py-5" id="home"
+        style="min-height: 100vh; background-color: #e9ecef;">
+
+
+        <div class="container">
+            {% for message in messages%}
+            <div id="thank" class="my-3 text-center p-2 bg-danger rounded">
+
+                <h5 class="text-white">{{message}}</h5>
+
+            </div>
+            {% endfor %}
+
+            <div class="row align-items-center">
+                {% for item in about %}
+                <div class="col-lg-7 hero-txt text-center text-lg-left">
+                    <h3 class="text-muted font-weight-bold mb-3"> Hey, I am</h3>
+                    <h1 class="display-3 maintxt text-uppercase text-white mb-2"
+                        style="-webkit-text-stroke: 4px rgb(0, 0, 0);">{{item.user_First_name}}
+                        {{item.user_Second_name}}</h1>
+                    <h1 class="typed-text-output text-capitalize d-inline font-weight-normal text-dark"
+                        style="font-size: 4rem; font-family: 'EB Garamond', serif;"></h1>
+                    <!-- typed text -->
+                    <div class="typed-text d-none ">
+                        {{item.Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace}}</div>
+
+                    <!-- button -->
+                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+                        <a href="{{item.user_cv_link}}" class="btn btn-danger mr-4" id="cvbtn">Download CV</a>
+                        <a href="#about" class="btn btn-success d-none d-sm-block" id="homeaboutbtn">About me</a>
+                    </div>
+                </div>
+                <!-- image -->
+                <div class="about-img col-lg-6 px-8 pl-lg-0  pb-5 pb-lg-4 ">
+                    <img src="{{item.user_image}}" alt="Profile picture"
+                        class="img-fluid w-100 rounded-circle shadow-sm">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    <!-- =============================== End  of Header  ============================== -->
+
+
+    <!-- ================================== About Section  ================================== -->
+    <div class="container-fluid py-5" id="about">
+        <div class="container">
+            <div class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke:1px #dee2e6;">
+                    About
+                </h1>
+                <h1 class="position-absolute text-uppercase text-secondary">About Me</h1>
+            </div>
+            <div class="row mt-4 align-items-center">
+                {% for item in about %}
+                <div class="col-lg-12">
+                    <h3 class="mb-5 text-white rounded-circle bg-secondary text-uppercase  text-center font-weight-bold"
+                        style="font-family: 'Times New Roman', Times, serif;">{{item.user_Title}}</h3>
+                    <div class="row mb-3">
+                        <div class="col-sm-6 py-2">
+                            <h6>Name: <span class="text-secondary text-capitalize">{{item.user_First_name}}
+                                    {{item.user_Second_name}}</span></h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Birthdate: <span class="text-secondary">{{item.user_Birthdate}}</span></h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Degree: <span class="text-capitalize text-secondary">{{item.user_highest_degree}}</span>
+                            </h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Experience: <span class="text-capitalize text-secondary">{{item.user_Experience}}</span>
+                            </h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Phone: <span><a href="tel:+91{{item.user_Phone_No}}"
+                                        class="text-decoration-none text-secondary">+91{{item.user_Phone_No}}
+                                    </a></span></h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Email: <a class="text-secondary text-decoration-none"
+                                    href="mailto:{{item.user_Email}}">{{item.user_Email}}</a></h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Address: <span class="text-capitalize text-secondary">{{item.user_Address}}</span>
+                            </h6>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <h6>Freelance: <span
+                                    class="text-capitalize text-secondary">{{item.user_Freelancer_status}}</span></h6>
+                        </div>
+
+                    </div>
+                    <p class=" text-break  text-center"
+                        style="line-height: 2.1rem;font-size: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; ">
+                        {{item.user_About_Desc}}</p>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- =============================== End of About Section  ============================== -->
+
+    <!-- ======================== Skill Section ======================== -->
+    <div class="container-fluid py-5" id="skill">
+        <div class="container">
+            <div class="position-relative  d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Skills</h1>
+                <h1 class="position-absolute text-uppercase text-secondary"> My Skills</h1>
+            </div>
+            <!-- skill -->
+            <div class="row align-items-center">
+                {% for item in skill %}
+                <div class="skill col-md-6  mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-width-bold text-uppercase">{{item.user_Skill_name}}</h6>
+                        <h6 class="font-width-bold">{{item.user_skill_knows_in_percententage}}%</h6>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-dark " role="progressbar"
+                            aria-valuenow="{{item.user_skill_knows_in_percententage}}" aria-valuemax="100"
+                            aria-valuemin="0"></div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <!-- ======================== End of  Skill Section ======================== -->
+
+
+    <!-- ======================== Qualification Start ======================== -->
+    <div class="container-fluid py-5 nav-qual" id="qualification">
+        <div class="container">
+            <div class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Quality</h1>
+                <h1 class="position-absolute text-uppercase qualifitxt text-secondary"> Education & Experience</h1>
+            </div>
+            <div class="row mt-5 align-items-center">
+                <div class="col-lg-12" id="edu">
+                    <h3 class="font-weight-bold" style="text-decoration: underline;">My Education</h3>
+                    <div class=" pt-lg-2 pt-md-2 pl-4 ml-2">
+                        {% for i in Edu %}
+                        <div class="position-relative ex-me mb-4">
+                            <i class="fas fa-arrow-circle-right text-secondary position-absolute"
+                                style="top: 2px; left: -35px; font-size: 22px;"></i>
+                            <h5 class="font-width-bold text-uppercase mb-1">{{i.Highest_education_name}}</h5>
+                            <strong class="text-capitalize">{{i.Highest_education_college}}</strong>
+                            <p class="mb-2"><small>{{i.Highest_education_year}}</small></p>
+                            <p class="text-capitalize text-break">{{i.Highest_education_desc}}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="col-lg-12 " id="exp">
+                    <h3 class=" mt-5 font-weight-bold" style="text-decoration: underline;">My Experience</h3>
+                    <div class="pt-2 pl-4 ml-2">
+                        {% for i in Exp %}
+                        <div class="position-relative ex-me mb-4">
+                            <i class="fas fa-arrow-circle-right text-secondary position-absolute"
+                                style="top: 2px; left: -35px; font-size: 22px;"></i>
+                            <h5 class="font-width-bold mb-1 text-uppercase">{{i.Experience_name}}</h5>
+                            <strong class="text-capitalize">{{i.compony}}</strong>
+                            <p class="mb-2"><small>{{i.year_duration}}</small></p>
+                            <p class="text-capitalize text-break">{{i.Desc_about_Experience}}</p>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ======================== End of  Qualification Start ======================== -->
+
+
+
+
+    <!-- ======================== Portfolio Section ======================== -->
+    <div class="container-fluid  pt-5 py-5  pb-3" id="project">
+
+        <div class="container">
+            <div class="service-h4 mb-5 position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Project</h1>
+                <h1 class="position-absolute text-uppercase text-secondary">My Projects</h1>
+            </div>
+
+            <!-- menu -->
+            <div class="row  overflow-hidden">
+
+                <div class="col-12 text-center mb-2">
+                    <ul class="list-inline mb-4" id="portfolio-filters">
+                        <li class="btn btn-sm btn-outline-secondary m-1 active" data-filter="*">All</li>
+                        {% for item in project %}
+                        <li class="btn filtercatbtn btn-sm btn-outline-secondary m-1"
+                            data-filter=".ct{{item.project_catagory_name}}">{{item.project_catagory_name}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container rounded p-5 " >
+        <div class="row  flex-wrap portfolio-container">
+            {% for item in project %}
+            <div class="col-lg-6 rounded  col-md-6 portfolio-item  ct{{item.project_catagory_name}} ">
+                <div class=" card position-relative overflow-hidden mb-2" style="border: none;">
+                    <img class="img-fluid rounded w-100" src="{{item.project_image}}" alt="projectphoto">
+                    <div
+                        class="portfolio-btn card-body bg-dark videostatus d-flex align-items-center justify-content-center">
+                        <a href="{{item.project_youTubevideo_link}}" data-lity data-lity-desc="video of project">
+                            <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
+                        </a>
+
+                    </div>
+                    <div class="card-body card-text">
+                        <p class="text-break">
+                        <div class="text-center mb-3 font-weight-bold text-dark"
+                            style="font-size:2rem; background-color: #e9ecef;">{{item.project_name}}</div>
+                        {{item.project_description}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ======================== End portfolio Section ======================== -->
+
+
+    <!-- ======================== Contact Section ======================== -->
+    <div class="container-fluid   py-5  pb-3" id="contact" style="margin-top: 2rem;">
+        <div class="container">
+            <div class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact
+                </h1>
+                <h1 class="position-absolute text-uppercase text-secondary">Contact Me</h1>
+            </div>
+            <div class="row justify-content-center mt-4 ">
+                <div class="col-lg-8">
+                    <div class="contact-form text-center">
+
+                        {% for i in about %}
+                        <form action="/{{i.user_id}}" method="POST" id="contactForm">{% csrf_token %}
+                            <div class="form-row">
+                                <div class="control-group col-sm-6">
+                                    <input type="text" class=" form-control p-4" id="name" name="personname"
+                                        placeholder="Enter your name" required='required'
+                                        data-validation-required-message='Please Enter your name' />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="control-group col-sm-6">
+                                    <input type="email" class="form-control p-4" id="email"
+                                        placeholder="Enter your Email id" name="personemail" required='required'
+                                        data-validation-required-message='Please Enter your Correct email id' />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-grop">
+                                <input type="text" class="form-control p-4" name="ptitle" id="subject"
+                                    placeholder="Enter your Query titile" required='required'
+                                    data-validation-required-message='Please Enter your title' />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <textarea class="form-control py-3 px-4" name="personmsg" id="message" rows="5"
+                                    placeholder="Enter your Message" required></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-secondary" type="submit" id="sendMessage">Send
+                                    Message</button>
+                            </div>
+                        </form>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ======================== End of Contact Section ======================== -->
+
+    <!-- ======================== Footer Section ======================== -->
+    <div class="container-fluid bg-dark text-white mt-5 py-1 px-sm-1 px-md-5">
+        <div class="container text-center py-5">
+            <h1 class="mb-5 font-weight-bold">Get in touch</h1>
+            <div class="d-flex socialbtn justify-content-center flex-wrap  social mb-4">
+                <a href="{{ kag }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-kaggle"></i></a>
+                <a href="{{ git }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-github"></i></a>
+                <a href="{{linkd}}" class="btn  btn-light btn-social mr-3"><i class="fab fa-linkedin-in"></i></a>
+                <a href="{{ twt }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-twitter"></i></a>
+                <a href="{{ fbk }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-facebook-f"></i></a>
+                <a href="{{ insta }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-instagram-square"></i></a>
+
+            </div>
+            {% for id in about %}
+            <a href="{% url  'login' id.user_id   %}" class="btn my-2 btn-outline-secondary text-danger"
+                style="font-size: 20px;">Edit this folio</a>
+            {% endfor %}
+
+        </div>
+    </div>
+    <!-- ======================== End of Footer Section ======================== -->
+
+
+    <!-- js code -->
+
+
+
+    <!-- extra js plugins -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+
+    <!-- isotape js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+
+
+    <!-- lity lightbox js code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+
+    <!-- js link -->
+    <script src="{%static 'myfolio/js/main.js'%}"></script>
+
+    <script>
+        // js for content hide
+        (function ($) {
+            "use strict"
+
+
+            // for manage cv link status
+            let cvstlink = $("#cvbtn").attr('href');
+            if (cvstlink == "") {
+                $('#cvbtn').attr('href', '#');
+            }
+
+
+            // for qaulity section 
+
+            // for edcation 
+            if ('{{ edu_status }}' == 0) {
+                $('#edu').addClass('d-none');
+
+            } else {
+                $('#edu').removeClass('d-none');
+            }
+            // for experience
+            if ('{{ exp_status }}' == 0) {
+                $('#exp').addClass('d-none');
+
+            } else {
+                $('#exp').removeClass('d-none');
+            }
+
+            if (('{{ exp_status }}' == 0) && ('{{ edu_status }}' == 0)) {
+                $('.nav-qual').addClass('d-none');
+            } else {
+                $('.nav-qual').removeClass('d-none');
+            }
+
+            // for skill section
+            if ('{{ skill_status }}' == 0) {
+                $('#skill , #nav_skill').addClass('d-none');
+
+            } else {
+                $('#skill , #nav_skill').removeClass('d-none');
+            }
+
+            // filter duplicate
+            var seen = {};
+            $('.filtercatbtn').each(function () {
+                var txt = $(this).text();
+                if (seen[txt])
+                    $(this).remove();
+                else
+                    seen[txt] = true;
+            });
+
+
+        })(jQuery);
+    </script>
+
+
+</body>
+
+</html>
