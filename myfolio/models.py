@@ -9,7 +9,7 @@ class About (models.Model):
     user_Birthdate = models.CharField(max_length = 50)
     user_highest_degree = models.CharField(max_length = 50)
     user_Experience = models.CharField(max_length = 50)
-    Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace = models.CharField(max_length = 1000)
+    Titles_you_want_to_show = models.CharField(max_length = 1000)
     user_Phone_No = models.CharField(max_length = 10)
     user_Email = models.EmailField(max_length = 254 ,unique=True)
     user_Address = models.CharField(max_length = 1200)
