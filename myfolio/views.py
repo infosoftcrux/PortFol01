@@ -78,7 +78,7 @@ def registerPage(request):
             user = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
             usercreate = About(user_id=user, user_First_name="fdemo", user_Second_name="ldemo",
-                                   user_Title="Infosoftcrux", user_Birthdate="0/0/000", user_highest_degree="hdemo", user_Experience="edemo", Titles_you_want_to_show="Demo, Infosoftcrux.com", user_Phone_No="0000000000", user_Email=email, user_Address="1234 Main St", user_Freelancer_status="not available", user_About_Desc="Our work process.Build Your Dream Projects With Us! Imagination will take us  everywhere Want to build something awesome?Just give us an idea and we will make your dream come true.We use cutting edge new technologies to deliver high quality projects." ,user_image="https://infosoftcrux.com/images/logo2.png")
+                                   user_Title="Infosoftcrux", user_Birthdate="0/0/000", user_highest_degree="hdemo", user_Experience="edemo", Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace="Demo, Infosoftcrux.com", user_Phone_No="0000000000", user_Email=email, user_Address="1234 Main St", user_Freelancer_status="not available", user_About_Desc="Our work process.Build Your Dream Projects With Us! Imagination will take us  everywhere Want to build something awesome?Just give us an idea and we will make your dream come true.We use cutting edge new technologies to deliver high quality projects." ,user_image="https://infosoftcrux.com/images/logo2.png")
             usercreate.save()
             userlinkcreate = Social_links(user_id=user)
             userlinkcreate.save()
@@ -159,7 +159,7 @@ def savedataabout(request, editaboutId):
         Abot = request.POST['About']
     cvlink = request.POST['cvlink']
     About.objects.filter(user_id=editaboutId).update(user_First_name=fname, user_Second_name=lname, user_Title=utitle, user_Birthdate=dob, user_highest_degree=hdegree, user_Experience=exp,
-                                                     Titles_you_want_to_show=animetxt, user_Phone_No=phonno, user_Email=uemail, user_Address=address,
+                                                     Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace=animetxt, user_Phone_No=phonno, user_Email=uemail, user_Address=address,
                                                      user_Freelancer_status=freestatus, user_About_Desc=Abot, user_image=request.POST['pimage'], user_cv_link=cvlink)
     messages.success(request, 'Your About section data updated successflly!!')
     return redirect('savedata', editaboutId)
