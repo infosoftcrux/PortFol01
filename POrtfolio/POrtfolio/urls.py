@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from myfolio import  views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register/rastogitarun9@/hdbsmgvdbshdvbmvbhdbvhsvvhbhvbshbvhgkb/portfolio/infosoft/tn216', views.registerPage, name="register"),
     path('',include('myfolio.urls')), #Redirect path to myfolio's urls.py
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #Managing media directory

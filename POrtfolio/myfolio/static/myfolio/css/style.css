@@ -161,8 +161,8 @@ a:hover{
 }
 .portfolio-item:hover .portfolio-btn{
   opacity: 1;
-  width: calc(100% - 50%);
-  height: calc(100% - 70%);
+  width: calc(100% - 50px);
+  height: 45%;
   top: 30px;
   left: 30px;
 }
@@ -181,7 +181,7 @@ a:hover{
     margin-top: 3rem;
   }
   .portfolio-item:hover .portfolio-btn{
-    height: 10rem;
+    height: 8.5rem;
   }
 }
 @media screen and (max-width: 600px) {
@@ -197,7 +197,7 @@ a:hover{
     margin-top: 3rem;
   }
   .portfolio-item:hover .portfolio-btn{
-    height: 8rem;
+    height: 5.8rem;
   }
  .btn-social{
    font-size: 22px;

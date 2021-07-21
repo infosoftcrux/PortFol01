@@ -17,10 +17,10 @@
         var typed_str = $('.typed-text').text();
         var typed = new Typed('.typed-text-output', {
             strings: typed_str.split(', '),
-            typeSpeed: 40,
+            typeSpeed: 50,
             backSpeed: 30,
             smartBackspace: false,
-            backDelay: 2000,
+            backDelay: 1000,
             loop: true
         });
 

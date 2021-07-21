@@ -1,11 +1,9 @@
-from django.contrib import admin
 from django.urls import path
 from . import views
 
 urlpatterns = [
     path('<userId>/', views.index, name='myfoliohome'),
     path('<loginId>/login/', views.loginpage, name='login'),
-    path('<registerId>/register/', views.registerPage, name="register"),
     path('<logoutId>/logout/', views.logoutUser, name="logout"),
     path('<editloginId>/editing/', views.savedata, name='savedata'),
     path('<editaboutId>/editing/about', views.savedataabout, name='savedataAbout'),
@@ -14,4 +12,9 @@ urlpatterns = [
     path('<editexpId>/editing/experience', views.savedataexperience, name='savedataexperience'),
     path('<editproId>/editing/project', views.savedataproject, name='savedataproject'),
     path('<editlinksId>/editing/sociallinks', views.savedatasociallinks, name='savedatasociallinks'),
+    path('<deleteloginId>/deleting/', views.deletedata, name='deletedata'),
+    path('<deleteskillId>/deleting/skill', views.deletedataskill, name='deletedataskill'),
+    path('<deleteeduId>/deleting/education', views.deleteataeducation, name='deletedataeducation'),
+    path('<deleteexpId>/deleting/experience', views.deletedataexperience, name='deletedataexperience'),
+    path('<deleteproId>/deleting/project', views.deletedataproject, name='deletedataproject'),
 ]
