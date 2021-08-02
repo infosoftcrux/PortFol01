@@ -1,5 +1,5 @@
 from django.forms import EmailField
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -39,6 +39,3 @@ class CreateUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-
-   

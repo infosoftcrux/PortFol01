@@ -1,0 +1,73 @@
+{% extends 'myfolio/basic.html' %}
+
+{% block title %}InfoSoftCrux Technologies | Make Your Personal Portfolio{% endblock %}
+
+{% block fav %}https://infosoftcrux.com/images/logo2.png{% endblock %}
+
+{% block body %}
+<div class="container-fluid ">
+    <div class="container">
+        <div class="d-flex">
+            <img src='https://infosoftcrux.com/images/logo2.png' class="img-fluid w-25  " alt="Our compony logo">
+            <h1 class="align-self-center text-primary  comname" style=" font-size: 10vw; font-family: 'Times New Roman', Times, serif;">InfoSoftCrux</h1>
+        </div>
+        <div class="d-flex flex-column flex-wrap">
+            <h4 class="text-center text-danger">Presents portfolio website. You can make your portfolio very easily and
+                free.!!</h4>
+            <a href="https://infosoftcrux.com" class="btn mx-auto mt-3 btn-success  text-decoration-none">Go to our
+                main website</a>
+        </div>
+        <!-- for displaying messages -->
+        {% for message in messages%}
+        <div id="thank" class="my-3 text-center p-2 bg-success rounded-circle">
+            <h5 class="text-white">{{message}}</h5>
+        </div>
+        {% endfor %}
+        <div class="row mt-5">
+            <div class="col-md-7 fs-5">
+            <h4 class="text-dark">If you want to create your portfolio, just follow these steps..</h4>
+            <ul class="mt-4">
+                <li>First, Fillup this form correctly.</li>
+                <li>After fillup these form <strong>you'll get a email in 24 hours.</strong></li>
+                <li>In that email, you'll get your userID and password.</li>
+                <li><strong>Get Folio - </strong>Just paste your userID after our website URL and then you'll get your
+                    portfolio.</li>
+                <li><strong>Edit Folio - </strong>After getting your folio,you can see edit button in the bottom of your
+                    folio. <br>just click the button and enter your password(getting from email) and then you can easily
+                    edit your folio..!!</li>
+                <li>In that email, you'll get your userID and password.</li>
+                <li>If you have any problem, just mail us :<i><a class="text-decoration-none text-danger"
+                        href="rastogitarun9@gmail.com">Creater of this website</a></i></li>
+            </ul>
+            </div>
+            <div class="col-md-5">
+                <h1 class="text-center mb-5  text-decoration-underline " style="font-family:cursive">Register your portfolio</h1>
+                <form class="row g-3" action="{% url 'home' %}" method="POST">{% csrf_token %}
+                    <div class="col-md-12">
+                      <label for="inputname" class="fs-5 form-label">Name</label>
+                      <input type="email" class="form-control" name="user_name" id="inputname" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="inputEmail" class="fs-5 form-label">Email</label>
+                      <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Enter your valid email" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="username" class=" fs-5 form-label">Suggest your Username</label>
+                      <input type="text" class="form-control" name="user" id="username" placeholder="enter username of your choice." required>
+                    </div>
+                    <div class="col-md-12">
+                      <button type="submit" class="btn btn-success w-100">Send</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,4 +1,5 @@
 /* ========================== Basic Code ======================= */
+@import url('https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital@1&display=swap');
 
 *{
   box-sizing: border-box;
@@ -18,7 +19,7 @@ body{
   background-color: #ffffff;
 }
 
-
+/* its for myfolio homepage */
 /* ======================== Header Section ======================== */
 .about-img{
   margin-left: -100px;
@@ -136,9 +137,22 @@ a:hover{
   font-size: 160px;
   font-weight: 1000;
 }
+.disedit{
+  font-size: 160px;
+  font-weight: 1000;
+}
 
 .position-absolute{
   font-weight: 700;
+}
+.discriptext{
+  font-family: 'STIX Two Text', serif;
+  font-size: 2.5vh;
+  font-weight: 400;
+  line-height: 1.8667;
+  margin-top: 12px;
+  text-align: justify; 
+  white-space: normal;
 }
 
 
@@ -173,6 +187,25 @@ a:hover{
   font-size: 2rem;
 }
 
+/* additional */
+.userbox{
+  width: 20rem; 
+  margin: 20vh auto;
+}
+.regbox{
+  width: 23rem; 
+  margin: 17vh auto;
+}
+
+/* for edit page */
+.currentdata{
+  padding: 5rem; 
+  background-color: rgba(197, 203, 209, 0.645); 
+}
+.proname {
+  font-size: 4vh;
+}
+
 
 /* ======================== additional Media Qureies for responsiveness ======================== */
 @media screen and (max-width: 800px) {
@@ -183,12 +216,36 @@ a:hover{
   .portfolio-item:hover .portfolio-btn{
     height: 8.5rem;
   }
+  .userbox{
+    margin: 18vh auto;
+  }
+  .regbox{
+    margin: 10vh auto; 
+  }
+  .disedit{
+    font-size: 120px;
+  }
+  
+ 
+  
 }
 @media screen and (max-width: 600px) {
 
   .display-1{
     font-size: 66px;
   }
+  .disedit{
+    font-size: 47px;
+  }
+  .editbtn{
+    width:-webkit-fill-available;
+    font-size: 20px;
+    margin: 10px;
+  }
+  .absedit{
+    font-size: 25px !important;
+  }
+
   .position-absolute{
     font-size: 32px;
   }
@@ -210,4 +267,18 @@ a:hover{
 .qualifitxt{
   font-size: 20px;
 }
+
+.userbox{
+  width: 17rem;
+  margin: 18vh auto;
 }
+.regbox{
+  width: 18rem; 
+  margin: 8vh auto;
+}
+.currentdata{
+  padding: 1rem;
+}
+
+}
+

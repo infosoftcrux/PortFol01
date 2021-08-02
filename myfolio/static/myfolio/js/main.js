@@ -4,7 +4,7 @@
 
     // Navbar on scrolling
     $(window).scroll(function () {
-        if ($(this).scrollTop() > 200) {
+        if ($(this).scrollTop() > 300) {
             $('.navbar').fadeIn('slow').css('display', 'flex');
         }
         else {
@@ -31,7 +31,7 @@
             event.preventDefault();
             var hash = this.hash;
             $('html , body').animate({
-                scrollTop: $(hash).offset().top - 40
+                scrollTop: $(hash).offset().top - 50
             }, 1100, 'swing');
             if ($(this).parents('.navbar-nav').length) {
                 $('.navbar-nav .active').removeClass('active');

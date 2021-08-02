@@ -1,0 +1,89 @@
+{% extends 'myfolio/basic.html' %}
+
+{% block title %}!!!RESET PASSWORD!!!{% endblock %}
+{% block fav %}https://infosoftcrux.com/images/logo2.png{% endblock %}
+
+{% block css %} 
+<style>
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: content-box radial-gradient(#6596d2,black) !important;
+    }
+
+
+    #messages {
+        background-color: grey;
+        color: #fff;
+        padding: 10px;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="container">
+        <div class=" bg-dark p-4 userbox rounded">
+            <div class="d-flex pb-3  justify-content-center">
+                <h3 class="text-white" id="form-title">RESET PASSWORD</h3>
+            </div>
+            
+            <div class="d-flex justify-content-center form_container ">
+                <form action="/{{id}}/{{useid}}/resetpasswordPage/" method="POST">{% csrf_token %}
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text text-white p-3"
+                                style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="text" style="border: none;" name="otp" placeholder="Enter your OTP"
+                            class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text text-white p-3"
+                                style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" style="border: none;" id="pass1" name="newpass1" placeholder="New Password..."
+                            class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text text-white p-3"
+                                style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" style="border: none;" id="pass2" name="newpass2" placeholder="Confirm Password..."
+                            class="form-control">
+                    </div>
+                    <div class="d-flex justify-content-center mt-3 login_container">
+                        <input class="btn fs-5 rounded-pill text-white  btn-info w-100" onclick="return validate()" type="submit" value="Reset">
+                    </div>
+                </form>
+            </div>
+
+            {% for message in messages %}
+            <p class="text-white" id="messages">{{message}}</p>
+            {% endfor %}
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    function validate() {
+        var password = document.getElementById("pass1").value;
+        var confirmPassword = document.getElementById("pass2").value;
+        if (password != confirmPassword) {
+                alert("You first Passwords is not similar with 2nd password. Please enter same password in both");
+                return false;
+            }
+        return true;
+    }
+</script>
+{% endblock %}

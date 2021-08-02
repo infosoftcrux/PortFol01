@@ -1,72 +1,110 @@
-from django.http.response import HttpResponse
+# from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+# from django.utils.encoding import force_bytes, force_text
+# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+from datetime import datetime
+from django.core.signing import TimestampSigner
+from django.http import Http404
 
 
 # Create your views here.
+
+def Porthome(request):
+    if request.method == "POST":
+        emailaddress = request.POST['email']
+        userid = request.POST['user']
+        username = request.POST['user_name']
+        send_mail(
+            f'Please!! Create My Portfolio..',
+            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {username} \nUser's suggestion of user name : {userid} \n\nThanks & Regards",
+            'infosoftcrux@gmail.com',
+            ['rastogitarun9@gmail.com','shreytrivedi002@gmail.com'],
+            fail_silently=False,
+        )
+        messages.success(request,"Thanks for registration. You'll get your userID and password within 24 hours..")
+        return redirect('home')
+    return render(request,'myfolio/home.html')
+
 def index(request, userId):
     # About section
     abt = About.objects.filter(user_id=userId)
 
-    # Quality section
-    educa = Education.objects.filter(user_id=userId)
-    expe = Experience.objects.filter(user_id=userId)
-    edu_status = 1
-    exp_status = 1
-    if educa.exists() == False:
-        edu_status = 0
+    if abt.exists() == False:
+        messages.error(request,"Your Portfolio dosen't exist!!. So please first register your folio then try again later!!")
+        return redirect('home')
+    else:
 
-    if expe.exists() == False:
-        exp_status = 0
+      # Quality section
+      educa = Education.objects.filter(user_id=userId)
+      expe = Experience.objects.filter(user_id=userId)
+      edu_status = 1
+      exp_status = 1
+      if educa.exists() == False:
+         edu_status = 0
 
-     # for Skill section
-    Skl = Skills.objects.filter(user_id=userId)
-    skill_status = 1
-    if Skl.exists() == False:
-        skill_status = 0
+      if expe.exists() == False:
+         exp_status = 0
 
-    # for portfoliio section
-    proj = Projects.objects.filter(user_id=userId)
+      # for Skill section
+      Skl = Skills.objects.filter(user_id=userId)
+      skill_status = 1
+      if Skl.exists() == False:
+         skill_status = 0
 
-    # Contact section
-    if request.method == "POST":
-        pname = request.POST.get('personname', '')
-        pemail = request.POST.get('personemail', '')
-        ptitle = request.POST.get('ptitle', '')
-        pmsg = request.POST.get('personmsg', '')
+      # for portfoliio section
+      proj = Projects.objects.filter(user_id=userId)
 
-        contact = Contact(user_id=userId, name=pname,
+      # Contact section
+      user_email = About.objects.get(user_id = userId).user_Email
+      user_name = About.objects.get(user_id = userId).user_First_name
+      if request.method == "POST":
+         pname = request.POST.get('personname', '')
+         pemail = request.POST.get('personemail', '')
+         ptitle = request.POST.get('ptitle', '')
+         pmsg = request.POST.get('personmsg', '')
+
+         contact = Contact(user_id=userId, name=pname,
                           email_Id=pemail, subject=ptitle, message=pmsg)
-        contact.save()
+         contact.save()
+         send_mail(
+            f'{pname} is Contact You Regarding "{ptitle}"',
+            f"Hey {user_name}, \n\nThe visitor's Message - \n{pmsg} \n\nVistior's information - \nVisitor's name : {pname} \nVisitor's email : {pemail} \n\n\nThanks & regards,\nYour portfolio \nInfosoftCrux\ninfosoftcrux.com",
+            'infosoftcrux@gmail.com',
+            [user_email],
+            fail_silently=False,
+            )
 
-        messages.success(
-            request, "Thanks for contact us.I'll contact you soon...")
-        return redirect('myfoliohome', userId)
+         messages.success(request, "Thanks for contact us.I'll contact you soon...")
+         return redirect('myfoliohome', userId)
 
-    # social_skill  section
-    sociallinks = Social_links.objects.filter(user_id=userId)
-    kaggle = ''
-    fblink = ''
-    insta = ''
-    linkdin = ''
-    twitter = ''
-    github = ''
-    for item in sociallinks:
-        kaggle = item.kaggle_link
-        fblink = item.facbook_link
-        insta = item.insta_link
-        linkdin = item.linkdin_link
-        twitter = item.twitter_link
-        github = item.github_link
+      # social_skill  section
+      sociallinks = Social_links.objects.filter(user_id=userId)
+      kaggle = ''
+      fblink = ''
+      insta = ''
+      linkdin = ''
+      twitter = ''
+      github = ''
+      for item in sociallinks:
+         kaggle = item.kaggle_link
+         fblink = item.facbook_link
+         insta = item.insta_link
+         linkdin = item.linkdin_link
+         twitter = item.twitter_link
+         github = item.github_link
 
-    data = {'skill': Skl, 'skill_status': skill_status, 'Edu': educa, 'Exp': expe, 'edu_status': edu_status, 'exp_status': exp_status,
+      data = {'skill': Skl, 'skill_status': skill_status, 'Edu': educa, 'Exp': expe, 'edu_status': edu_status, 'exp_status': exp_status,
             'about': abt, 'project': proj, 'fbk': fblink, 'kag': kaggle, 'insta': insta, 'linkd': linkdin, 'twt': twitter, 'git': github}
-    return render(request, 'myfolio/index.html', data)
+      return render(request, 'myfolio/index.html', data)
 
 
 def registerPage(request):
@@ -77,12 +115,20 @@ def registerPage(request):
             form.save()
             user = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password2')
             usercreate = About(user_id=user, user_First_name="fdemo", user_Second_name="ldemo",
                                    user_Title="Infosoftcrux", user_Birthdate="0/0/000", user_highest_degree="hdemo", user_Experience="edemo", Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace="Demo, Infosoftcrux.com", user_Phone_No="0000000000", user_Email=email, user_Address="1234 Main St", user_Freelancer_status="not available", user_About_Desc="Our work process.Build Your Dream Projects With Us! Imagination will take us  everywhere Want to build something awesome?Just give us an idea and we will make your dream come true.We use cutting edge new technologies to deliver high quality projects." ,user_image="https://infosoftcrux.com/images/logo2.png")
             usercreate.save()
             userlinkcreate = Social_links(user_id=user)
             userlinkcreate.save()
-            messages.success(request, 'Account was created for ' + user)
+            send_mail(
+                f"Thanks for registeration | Your portfolio's Username and Password | Please do not share with anyone",
+                f"Hey {user}, \n\nGreetings!! \n\nYour Portfolio has been created.\n\nYour Portfolio's Details - \nUser Id : {user} \nPassword : {password} (do not share with anyone) \n\nNow,you can just paste this userID after our website in URL And you'll get  your Portfolio very easily.\nIf you want to update your Portfolio then just login with Password and you can change anything in your portfolio from edit page.\n\n\nThanks & regards,\nInfosoftCrux Technology\ninfosoftcrux.com",
+                'infosoftcrux@gmail.com',
+                [email],
+                fail_silently=False,
+            )
+            messages.success(request, 'Portfolio was created for ' + user)
             return redirect('register')
 
     return render(request, 'myfolio/registration.html',{'form':form})
@@ -92,6 +138,30 @@ def logoutUser(request, logoutId):
     logout(request)
     return redirect('myfoliohome', logoutId)
 
+@login_required
+def changepass(request,passID):
+  realID = request.user.username
+  if passID == realID:
+    abt = About.objects.filter(user_id=passID)
+    if request.method == 'POST':
+        secret = request.POST['oldpass']
+        newpass2 = request.POST['newpass2']
+        user = authenticate(username=passID, password=secret)
+        if user is not None:
+            u = User.objects.get(username=passID)
+            u.set_password(newpass2)
+            u.save()
+            messages.success(request, 'your password has been  changed')
+            return redirect('login',passID)
+        else:
+            messages.error(request,'Your Old password is wrong!! Please enter your correct password')
+            return redirect('changepass',passID)
+    return render(request, 'myfolio/changepass.html', {'about':abt})
+  else:
+    messages.info(request, "Don't try access anyone's folio !! :| ")
+    return redirect('myfoliohome' ,realID)
+
+
 
 def loginpage(request, loginId):
     if request.user.is_authenticated:
@@ -99,14 +169,13 @@ def loginpage(request, loginId):
     else:
         if request.method == 'POST':
             # Email = request.POST.get('Email')
-            password = request.POST.get('password')
+            password = request.POST.get('new_password')
             user = authenticate(request, username=loginId, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('savedata', loginId)
+                return redirect('savedata',loginId)
             else:
-                messages.info(
-                    request, "Password is incorrect. Don't try access anyone's folio !! :| ")
+                messages.info(request, "Password is incorrect. Don't try access anyone's folio !! :| ")
                 return redirect('myfoliohome' ,loginId)
 
         abt = About.objects.filter(user_id=loginId)
@@ -115,20 +184,25 @@ def loginpage(request, loginId):
 
 @login_required
 def savedata(request, editloginId):
-
-    abut = About.objects.filter(user_id=editloginId)
-    abskl = Skills.objects.filter(user_id=editloginId)
-    abedu = Education.objects.filter(user_id=editloginId)
-    abexp = Experience.objects.filter(user_id=editloginId)
-    abpro = Projects.objects.filter(user_id=editloginId)
-    ablink = Social_links.objects.filter(user_id=editloginId)
-    data = {'abt': abut, 'skl': abskl, 'edun': abedu,
+    passId = request.user.username
+    if editloginId == passId:
+      abut = About.objects.filter(user_id=editloginId)
+      abskl = Skills.objects.filter(user_id=editloginId)
+      abedu = Education.objects.filter(user_id=editloginId)
+      abexp = Experience.objects.filter(user_id=editloginId)
+      abpro = Projects.objects.filter(user_id=editloginId)
+      ablink = Social_links.objects.filter(user_id=editloginId)
+      data = {'abt': abut, 'skl': abskl, 'edun': abedu,
             'expce': abexp, 'prot': abpro, 'slink': ablink}
-    return render(request, 'myfolio/edit.html', data)
+      return render(request, 'myfolio/edit.html', data)
+    else:
+      messages.info(request, "Don't try access anyone's folio !! :| ")
+      return redirect('myfoliohome' ,passId)
 
 @login_required
 def deletedata(request,deleteloginId):
-
+  passId = request.user.username
+  if deleteloginId == passId:
     abut = About.objects.filter(user_id=deleteloginId)
     abskl = Skills.objects.filter(user_id=deleteloginId)
     abedu = Education.objects.filter(user_id=deleteloginId)
@@ -137,13 +211,16 @@ def deletedata(request,deleteloginId):
     data = {'abt':abut,'skl': abskl,'edun': abedu,'expce': abexp, 'prot': abpro,}
 
     return render(request,'myfolio/delete.html',data)
+  else:
+     messages.info(request, "Don't try access anyone's folio !! :| ")
+     return redirect('myfoliohome' ,passId)
 
 
 @login_required
 def savedataabout(request, editaboutId):
-
+  passId = request.user.username
+  if editaboutId == passId:
     if request.method == 'POST':
-
         # for  About section
         fname = request.POST['fname']
         lname = request.POST['lname']
@@ -157,16 +234,22 @@ def savedataabout(request, editaboutId):
         freestatus = request.POST['freestatus']
         address = request.POST['address']
         Abot = request.POST['About']
-    cvlink = request.POST['cvlink']
-    About.objects.filter(user_id=editaboutId).update(user_First_name=fname, user_Second_name=lname, user_Title=utitle, user_Birthdate=dob, user_highest_degree=hdegree, user_Experience=exp,
+        cvlink = request.POST['cvlink']
+    try:
+     About.objects.filter(user_id=editaboutId).update(user_First_name=fname, user_Second_name=lname, user_Title=utitle, user_Birthdate=dob, user_highest_degree=hdegree, user_Experience=exp,
                                                      Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace=animetxt, user_Phone_No=phonno, user_Email=uemail, user_Address=address,
                                                      user_Freelancer_status=freestatus, user_About_Desc=Abot, user_image=request.POST['pimage'], user_cv_link=cvlink)
-    messages.success(request, 'Your About section data updated successflly!!')
-    return redirect('savedata', editaboutId)
+     messages.success(request, 'Your About section data updated successflly!!')
+     return redirect('savedata', editaboutId)
+    except:
+        messages.error(request,'Sorry !! this Email id already exist')
+        return redirect('savedata', editaboutId)
 
 
 @login_required
 def savedataskill(request, editskillId):
+  passId = request.user.username
+  if editskillId == passId:
 
     # for skill section
     skillname = request.POST['skillname']
@@ -190,6 +273,8 @@ def savedataskill(request, editskillId):
 
 @login_required
 def deletedataskill(request,deleteskillId):
+  passId = request.user.username
+  if deleteskillId == passId:
      # for skill section
     skillname = request.POST['skillname']
     skill = Skills.objects.filter(user_id=deleteskillId, user_Skill_name=skillname)
@@ -202,7 +287,8 @@ def deletedataskill(request,deleteskillId):
 
 @login_required
 def savedataeducation(request, editeduId):
-
+  passId = request.user.username
+  if editeduId == passId:
     # for education section
     eduname = request.POST['eduname']
     eduyear = request.POST['eduyear']
@@ -226,7 +312,8 @@ def savedataeducation(request, editeduId):
 
 @login_required
 def deleteataeducation(request,deleteeduId):
-
+  passId = request.user.username
+  if deleteeduId == passId:
      # for education section
     eduname = request.POST['eduname']
     edus = Education.objects.filter(user_id=deleteeduId,Highest_education_name=eduname)
@@ -236,7 +323,8 @@ def deleteataeducation(request,deleteeduId):
 
 @login_required
 def savedataexperience(request, editexpId):
-
+  passId = request.user.username
+  if editexpId == passId:
     # for experience section
     expname = request.POST['expname']
     expyear = request.POST['expyear']
@@ -254,6 +342,8 @@ def savedataexperience(request, editexpId):
 
 @login_required
 def deletedataexperience(request,deleteexpId):
+  passId = request.user.username
+  if deleteexpId == passId:
      # for experience section
     expname = request.POST['expname']
     exper = Experience.objects.filter(user_id=deleteexpId,Experience_name=expname)
@@ -264,7 +354,8 @@ def deletedataexperience(request,deleteexpId):
 
 @login_required
 def deletedataproject(request,deleteproId):
-
+  passId = request.user.username
+  if deleteproId == passId:
      # for Project section
     proname = request.POST['proname']
     pros = Projects.objects.filter(user_id=deleteproId,project_name=proname)
@@ -274,7 +365,8 @@ def deletedataproject(request,deleteproId):
 
 @login_required
 def savedataproject(request, editproId):
-
+  passId = request.user.username
+  if editproId == passId:
     # for Project section
     proname = request.POST['proname']
     procat = request.POST['procat']
@@ -300,7 +392,8 @@ def savedataproject(request, editproId):
 
 @login_required
 def savedatasociallinks(request, editlinksId):
-
+  passId = request.user.username
+  if editlinksId == passId:
     # for git in touch section
     linkdin = request.POST['linkdin']
     kaggle = request.POST['kaggle']
@@ -325,3 +418,70 @@ def savedatasociallinks(request, editlinksId):
             request, 'Your get in touch links section data created successflly!!')
 
     return redirect('savedata', editlinksId)
+
+def resetpass(request,passid):
+   user_name = About.objects.get(user_id = passid).user_First_name
+  
+   if request.method == 'POST':
+       useremail  = request.POST['usermail']
+       try:
+           authid = User.objects.get(username = passid,email=useremail)
+           
+           try:
+             Otp = random.randrange(000000,999999)
+             signer = TimestampSigner() 
+             mail = signer.sign_object([useremail])
+             send_mail(
+               "!!RESET PASSWORD!! | OTP | Don't share with anyone",
+               f"Hey {user_name}, \n\nWe have received a request to reset your portfolio password !!! \nYour OTP is '{Otp}' (please don't share!) \n\n\nThanks & regards,\nYour portfolio \nInfosoftCrux\ninfosoftcrux.com",
+                'infosoftcrux@gmail.com',
+                [useremail],
+                fail_silently=False)
+             mailstatus= OTPRESET.objects.filter(email=useremail)
+             if mailstatus.exists():
+                    OTPRESET.objects.filter(email=useremail).update(otp=Otp)
+             else:
+                 otpmodelcreate = OTPRESET(email=useremail,otp=Otp)
+                 otpmodelcreate.save()
+             request.session['resetpass'] = 'resetpassword'
+             messages.success(request,'OTP has been send to your email')
+             return redirect('resetpage',resetid = authid,mailID = mail)
+           except:
+             messages.error(request,'Something went wrong')
+             return redirect('resetpass',passid)
+       except:
+           messages.error(request,'Wrong email!! Please enter your registered email id !!')
+           return redirect('resetpass',passid)
+   args ={'id':passid}
+   return render(request, 'myfolio/reset.html',args)
+
+def resetpage(request,resetid,mailID):
+      signer = TimestampSigner() 
+      getemail = signer.unsign_object(mailID)
+      decriptmail = getemail[0]
+      try:
+         authid = User.objects.get(username = resetid,email=decriptmail)
+         savedotp = OTPRESET.objects.get(email=decriptmail).otp
+        #  savedtime = OTPRESET.objects.get(email=decriptmail).otp
+         if request.method == 'POST':
+           if 'resetpass' in request.session:
+             enterotp = request.POST['otp']
+             newpass  = request.POST['newpass2']
+             if enterotp == savedotp:
+               u = User.objects.get(username=authid)
+               u.set_password(newpass)
+               u.save()
+               messages.success(request, 'your password has been  Reset!!')
+               request.session.flush()
+               request.session.clear_expired()
+               return redirect('myfoliohome',authid)
+             else:
+               messages.error(request, 'This OTP is wrong !!!!')
+               return redirect('resetpage',resetid= authid,actualID=mailID)
+           else:
+              messages.info(request,'Your session has been expired!!')
+              return redirect('resetpass',authid)
+      except:
+          raise Http404("Page does not exist")
+      args ={'id':resetid,'useid':mailID}
+      return render(request, 'myfolio/resetpage.html',args)

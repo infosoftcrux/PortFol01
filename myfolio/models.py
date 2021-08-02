@@ -82,3 +82,10 @@ class Social_links (models.Model):
     def __str__(self):
         return f'{self.user_id} links'
 
+class OTPRESET(models.Model):
+    email = models.EmailField(unique=True)
+    otp = models.CharField(max_length=6)
+    timestamp  = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.email}  - {self.timestamp}'
