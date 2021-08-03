@@ -3,14 +3,14 @@
 {% block title %}!!!RESET PASSWORD!!!{% endblock %}
 {% block fav %}https://infosoftcrux.com/images/logo2.png{% endblock %}
 
-{% block css %} 
+{% block css %}
 <style>
     body,
     html {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        background: content-box radial-gradient(#6596d2,black) !important;
+        background: content-box radial-gradient(#6596d2, black) !important;
     }
 
 
@@ -31,35 +31,39 @@
             <div class="d-flex pb-3  justify-content-center">
                 <h3 class="text-white" id="form-title">RESET PASSWORD</h3>
             </div>
-            
+
             <div class="d-flex justify-content-center form_container ">
-                <form action="/{{id}}/{{useid}}/resetpasswordPage/" method="POST">{% csrf_token %}
+                <form action="/{{id}}/{{useid}}/resetpasswordPage/" name="resetform" onsubmit="return validate()" method="POST">
+                    {% csrf_token %}
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text text-white p-3"
                                 style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
                         </div>
                         <input type="text" style="border: none;" name="otp" placeholder="Enter your OTP"
-                            class="form-control">
+                            class="form-control" required>
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text text-white p-3"
                                 style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" style="border: none;" id="pass1" name="newpass1" placeholder="New Password..."
-                            class="form-control">
+                        <input type="password" style="border: none;" id="pass1" name="newpass1"
+                            placeholder="New Password..." class="form-control" required>
+                            <span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye"
+                            onclick="showpass()"><i class="far fa-eye"></i></span>
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text text-white p-3"
                                 style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" style="border: none;" id="pass2" name="newpass2" placeholder="Confirm Password..."
-                            class="form-control">
+                        <input type="password" style="border: none;" id="pass2" name="newpass2"
+                            placeholder="Confirm Password..." class="form-control" required>
                     </div>
                     <div class="d-flex justify-content-center mt-3 login_container">
-                        <input class="btn fs-5 rounded-pill text-white  btn-info w-100" onclick="return validate()" type="submit" value="Reset">
+                        <input class="btn fs-5 rounded-pill text-white  btn-info w-100" onclick="" type="submit"
+                            value="Reset">
                     </div>
                 </form>
             </div>
@@ -80,10 +84,27 @@
         var password = document.getElementById("pass1").value;
         var confirmPassword = document.getElementById("pass2").value;
         if (password != confirmPassword) {
-                alert("You first Passwords is not similar with 2nd password. Please enter same password in both");
-                return false;
-            }
+            alert("You first Passwords is not similar with 2nd password. Please enter same password in both");
+            return false;
+        }
+        let enterpass = document.forms["resetform"]["newpass1"].value;
+        if (enterpass.length < 8) {
+            alert("Password Must have 8 or Greater then 8 character");
+            return false;
+        }
+
         return true;
     }
+    function showpass() {
+			let s1 = document.forms["resetform"]["newpass1"].type;
+			if (s1 == "password") {
+				document.forms["resetform"]["newpass1"].type = "text";
+				document.getElementById("eye").innerHTML = '<i class="far fa-eye-slash"></i>';
+			}
+			else {
+				document.forms["resetform"]["newpass1"].type = "password";
+				document.getElementById("eye").innerHTML = '<i class="far fa-eye"></i';
+			}
+		}
 </script>
 {% endblock %}

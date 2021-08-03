@@ -36,8 +36,7 @@
                     folio. <br>just click the button and enter your password(getting from email) and then you can easily
                     edit your folio..!!</li>
                 <li>In that email, you'll get your userID and password.</li>
-                <li>If you have any problem, just mail us :<i><a class="text-decoration-none text-danger"
-                        href="rastogitarun9@gmail.com">Creater of this website</a></i></li>
+                <li>If you have any problem, just mail us :<i><a class="text-decoration-none text-danger" href="mailto:rastogitarun9@gmail.com">Creater of this website</a></i></li>
             </ul>
             </div>
             <div class="col-md-5">
@@ -45,7 +44,7 @@
                 <form class="row g-3" action="{% url 'home' %}" method="POST">{% csrf_token %}
                     <div class="col-md-12">
                       <label for="inputname" class="fs-5 form-label">Name</label>
-                      <input type="email" class="form-control" name="user_name" id="inputname" placeholder="Enter your full name" required>
+                      <input type="text" class="form-control" name="user_name" id="inputname" placeholder="Enter your full name" required>
                     </div>
                     <div class="col-md-6">
                       <label for="inputEmail" class="fs-5 form-label">Email</label>

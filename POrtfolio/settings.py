@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-SESSION_COOKIE_AGE= 5*60
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

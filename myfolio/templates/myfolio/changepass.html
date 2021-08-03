@@ -4,17 +4,17 @@
 {% block title %}!!!CHANGE PASSWORD!!! -{{ id.user_First_name }} {{ id.user_Second_name }}{% endblock %}
 
 
-{% block fav %} {{id.user_image}}{% endblock %}
+{% block fav %}{{id.user_image}}{% endblock %}
 {% endfor %}
 
-{% block css %} 
+{% block css %}
 <style>
     body,
     html {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        background: content-box radial-gradient(#6596d2,black) !important;
+        background: content-box radial-gradient(#6596d2, black) !important;
     }
 
 
@@ -37,33 +37,41 @@
             </div>
             <div class="d-flex justify-content-center form_container ">
                 {% for id in about %}
-                <form action="{% url 'changepass' id.user_id %}" method="POST">{% csrf_token %}
+                <form action="{% url 'changepass' id.user_id %}" name="changeform" onsubmit="return validate()"
+                    method="POST">
+                    {% csrf_token %}
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text text-white p-3"
                                 style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
                         </div>
                         <input type="password" style="border: none;" name="oldpass" placeholder="Old Password..."
-                            class="form-control">
+                            class="form-control px-3" required>
+                        <span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye1"
+                            onclick="showpass1()"><i class="far fa-eye"></i></span>
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text text-white p-3"
                                 style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" style="border: none;" id="pass1" name="newpass1" placeholder="New Password..."
-                            class="form-control">
+                        <input type="password" style="border: none;" id="pass1" name="newpass1"
+                            placeholder="New Password..." class="form-control px-3" required>
+                        <span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye2"
+                            onclick="showpass2()"><i class="far fa-eye"></i></span>
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text text-white p-3"
                                 style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" style="border: none;" id="pass2" name="newpass2" placeholder="Confirm Password..."
-                            class="form-control">
+                        <input type="password" style="border: none;" id="pass2" name="newpass2"
+                            placeholder="Confirm Password..." class="form-control px-3" required>
+                        <span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye3"
+                            onclick="showpass3()"><i class="far fa-eye"></i></span>
                     </div>
                     <div class="d-flex justify-content-center mt-3 login_container">
-                        <input class="btn fs-5 rounded-pill text-white  btn-info w-100" onclick="return validate()" type="submit" value="Change..">
+                        <input class="btn fs-5 rounded-pill text-white  btn-info w-100" type="submit" value="Change..">
                     </div>
                 </form>
                 {% endfor %}
@@ -79,14 +87,52 @@
 {% endblock %}
 {% block js %}
 <script>
-    function validate(){
+    function validate() {
         var password = document.getElementById("pass1").value;
         var confirmPassword = document.getElementById("pass2").value;
         if (password != confirmPassword) {
-                alert("You first Passwords is not similar with 2nd password. Please enter same password in both");
-                return false;
-            }
+            alert("You first Passwords is not similar with 2nd password. Please enter same password in both");
+            return false;
+        }
+        let enterpass = document.forms["changeform"]["newpass1"].value;
+        if (enterpass.length < 8) {
+            alert("Password Must have 8 or Greater then 8 character");
+            return false;
+        }
         return true;
+    }
+    function showpass1() {
+        let s1 = document.forms["changeform"]["oldpass"].type;
+        if (s1 == "password") {
+            document.forms["changeform"]["oldpass"].type = "text";
+            document.getElementById("eye1").innerHTML = '<i class="far fa-eye-slash"></i>';
+        }
+        else {
+            document.forms["changeform"]["oldpass"].type = "password";
+            document.getElementById("eye1").innerHTML = '<i class="far fa-eye"></i';
+        }
+    }
+    function showpass2() {
+        let s2 = document.forms["changeform"]["newpass1"].type;
+        if (s2 == "password") {
+            document.forms["changeform"]["newpass1"].type = "text";
+            document.getElementById("eye2").innerHTML = '<i class="far fa-eye-slash"></i>';
+        }
+        else {
+            document.forms["changeform"]["newpass1"].type = "password";
+            document.getElementById("eye2").innerHTML = '<i class="far fa-eye"></i';
+        }
+    }
+    function showpass3() {
+        let s3 = document.forms["changeform"]["newpass2"].type;
+        if (s3 == "password") {
+            document.forms["changeform"]["newpass2"].type = "text";
+            document.getElementById("eye3").innerHTML = '<i class="far fa-eye-slash"></i>';
+        }
+        else {
+            document.forms["changeform"]["newpass2"].type = "password";
+            document.getElementById("eye3").innerHTML = '<i class="far fa-eye"></i';
+        }
     }
 </script>
 {% endblock %}

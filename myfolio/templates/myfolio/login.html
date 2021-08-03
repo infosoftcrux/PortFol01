@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<title>!!!LOGIN!!!</title>
 
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
-		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+		integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 	{% for i in about %}
 	<link rel="shortcut icon" href="{{i.user_image}}" type="image/x-icon">
 	{% endfor %}
@@ -23,7 +27,7 @@
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
-			background: content-box radial-gradient(#6596d2,black) !important;
+			background: content-box radial-gradient(#6596d2, black) !important;
 		}
 
 		#messages {
@@ -31,6 +35,11 @@
 			color: #fff;
 			padding: 10px;
 			margin-top: 10px;
+		}
+
+		.usein {
+			background-color: #f7ba5b;
+			border: none;
 		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -45,15 +54,18 @@
 				</div>
 				<div class="d-flex justify-content-center form_container ">
 					{% for id in about %}
-					<form method="POST" action="{% url 'login' id.user_id %}">{% csrf_token %}
+					<form method="POST" name="login" onsubmit="return valid()" action="{% url 'login' id.user_id %}">
+						{% csrf_token %}
 						<div class="input-group mb-2">
 							<div class="input-group-append">
-								<span class="input-group-text text-white p-3 "
-									style="background-color: #f7ba5b; border: none;"><i class="fas fa-key "></i></span>
+								<span class=" input-group-text usein text-white p-3 "><i
+										class="fas fa-key "></i></span>
 							</div>
 
 							<input type="password" style="border: none;" name="new_password" placeholder="Password..."
-								class="form-control">
+								class=" form-control  px-3" required>
+							<span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye"
+								onclick="showpass()"><i class="far fa-eye"></i></span>
 						</div>
 
 						<div class="d-flex justify-content-center mt-3 login_container">
@@ -64,7 +76,8 @@
 
 				</div>
 				{% for id in about %}
-				<h6 class="text-center mt-4"><a class="text-primary text-decoration-none" href="{% url 'resetpass' id.user_id  %}">Forget your password?</a></h6>
+				<h6 class="text-center mt-4"><a class="text-primary text-decoration-none"
+						href="{% url 'resetpass' id.user_id  %}">Forget your password?</a></h6>
 				{% endfor %}
 
 				{% for message in messages %}
@@ -74,11 +87,31 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- Option 1: Bootstrap Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
+
+	<script>
+		function valid() {
+			let enterpass = document.forms["login"]["new_password"].value;
+			if (enterpass.length < 8) {
+				alert("Password Must have 8 or Greater then 8 character");
+				return false;
+			}
+		}
+		function showpass() {
+			let s1 = document.forms["login"]["new_password"].type;
+			if (s1 == "password") {
+				document.forms["login"]["new_password"].type = "text";
+				document.getElementById("eye").innerHTML = '<i class="far fa-eye-slash"></i>';
+			}
+			else {
+				document.forms["login"]["new_password"].type = "password";
+				document.getElementById("eye").innerHTML = '<i class="far fa-eye"></i';
+			}
+		}
+	</script>
 </body>
 
 </html>

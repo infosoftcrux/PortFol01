@@ -23,15 +23,20 @@ def Porthome(request):
         emailaddress = request.POST['email']
         userid = request.POST['user']
         username = request.POST['user_name']
-        send_mail(
+        try:
+            User.objects.get(email=emailaddress)
+            messages.error(request,"This email address is already exist!!")
+            return redirect('home')
+        except:
+         send_mail(
             f'Please!! Create My Portfolio..',
             f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {username} \nUser's suggestion of user name : {userid} \n\nThanks & Regards",
             'infosoftcrux@gmail.com',
             ['rastogitarun9@gmail.com','shreytrivedi002@gmail.com'],
             fail_silently=False,
-        )
-        messages.success(request,"Thanks for registration. You'll get your userID and password within 24 hours..")
-        return redirect('home')
+          )
+         messages.success(request,"Thanks for registration. You'll get your userID and password within 24 hours..")
+         return redirect('home')
     return render(request,'myfolio/home.html')
 
 def index(request, userId):
@@ -443,7 +448,9 @@ def resetpass(request,passid):
              else:
                  otpmodelcreate = OTPRESET(email=useremail,otp=Otp)
                  otpmodelcreate.save()
-             request.session['resetpass'] = 'resetpassword'
+             request.session['resetpass']= 'resetpassword'
+             request.session.set_expiry(300)
+             
              messages.success(request,'OTP has been send to your email')
              return redirect('resetpage',resetid = authid,mailID = mail)
            except:
@@ -471,6 +478,8 @@ def resetpage(request,resetid,mailID):
                u = User.objects.get(username=authid)
                u.set_password(newpass)
                u.save()
+               Otp = random.randrange(000000,999999)
+               OTPRESET.objects.filter(email=decriptmail).update(otp=Otp)
                messages.success(request, 'your password has been  Reset!!')
                request.session.flush()
                request.session.clear_expired()
