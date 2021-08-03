@@ -67,6 +67,10 @@ def index(request, userId):
 
       # for portfoliio section
       proj = Projects.objects.filter(user_id=userId)
+      pro_status = True
+      if proj.exists() == False:
+        pro_status = False
+      
 
       # Contact section
       user_email = About.objects.get(user_id = userId).user_Email
@@ -107,7 +111,7 @@ def index(request, userId):
          twitter = item.twitter_link
          github = item.github_link
 
-      data = {'skill': Skl, 'skill_status': skill_status, 'Edu': educa, 'Exp': expe, 'edu_status': edu_status, 'exp_status': exp_status,
+      data = {'skill': Skl, 'skill_status': skill_status, 'Edu': educa, 'Exp': expe, 'edu_status': edu_status, 'prostat':pro_status, 'exp_status': exp_status,
             'about': abt, 'project': proj, 'fbk': fblink, 'kag': kaggle, 'insta': insta, 'linkd': linkdin, 'twt': twitter, 'git': github}
       return render(request, 'myfolio/index.html', data)
 

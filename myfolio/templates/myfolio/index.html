@@ -34,8 +34,8 @@
     <!-- lity lightbox cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css">
-    
-    
+
+
 </head>
 
 <body>
@@ -61,7 +61,9 @@
                 <a href="#about" class="nav-item  nav-link ">About</a>
                 <a href="#skill" id="nav_skill" class="nav-item  nav-link ">Skill</a>
                 <a href="#qualification" class=" nav-qual nav-item  nav-link ">Quality</a>
+                {% if prostat %}
                 <a href="#project" class="nav-item nav-link ">Projects</a>
+                {% endif %}
                 <a href="#contact" class="nav-item nav-link ">Contact</a>
             </div>
         </div>
@@ -91,8 +93,8 @@
                     <h1 class="display-3 maintxt text-uppercase text-white mb-2"
                         style="-webkit-text-stroke: 4px rgb(0, 0, 0);">{{item.user_First_name}}
                         {{item.user_Second_name}}</h1>
-                    <h1 class="typed-text-output text-capitalize d-inline font-weight-normal text-dark"
-                        style="font-size: 4rem; font-family: 'EB Garamond', serif;"></h1>
+                    <h1 class="typed-text-output text-break text-capitalize d-inline font-weight-normal text-dark"
+                        style="font-family: 'EB Garamond', serif;"></h1>
                     <!-- typed text -->
                     <div class="typed-text  d-none ">
                         {{item.Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace}}</div>
@@ -252,7 +254,7 @@
 
 
 
-
+    {% if prostat %}
     <!-- ======================== Portfolio Section ======================== -->
     <div class="container-fluid  pt-5 py-5  pb-3" id="project">
 
@@ -277,22 +279,24 @@
             </div>
         </div>
     </div>
-    <div class="container" >
+    <div class="container">
         <div class="row portfolio-container">
             {% for item in project %}
             <div class="rounded col-md-6 my-2 portfolio-item  ct{{item.project_catagory_name}} ">
                 <div class=" card mb-2" style="border: none;">
                     <img class="img-fluid card-img-top w-100" src="{{item.project_image}}" alt="projectphoto">
-                    <div class="portfolio-btn card-body bg-dark videostatus d-flex align-items-center justify-content-center">
+                    <div
+                        class="portfolio-btn card-body bg-dark videostatus d-flex align-items-center justify-content-center">
                         <a href="{{item.project_youTubevideo_link}}" data-lity data-lity-desc="video of project">
                             <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
                         </a>
                     </div>
                     <div class="card-body  p-0 ">
-                        <div class="text-center card-title proname text-capitalize my-3 font-weight-bold text-dark" style="background-color: #e9ecef;">{{item.project_name}}</div>
-                    <p class="text-capitalize discriptext card-text text-break">
-                        {{item.project_description}}
-                    </p>
+                        <div class="text-center card-title proname text-capitalize my-3 font-weight-bold text-dark"
+                            style="background-color: #e9ecef;">{{item.project_name}}</div>
+                        <p class="text-capitalize discriptext card-text text-break">
+                            {{item.project_description}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -300,7 +304,9 @@
         </div>
     </div>
 
+
     <!-- ======================== End portfolio Section ======================== -->
+    {% endif %}
 
 
     <!-- ======================== Contact Section ======================== -->
@@ -315,7 +321,8 @@
                 <div class="col-lg-8">
                     <div class="contact-form text-center">
                         {% for i in about %}
-                        <form action="{% url 'myfoliohome' i.user_id  %}" method="POST" id="contactForm">{% csrf_token %}
+                        <form action="{% url 'myfoliohome' i.user_id  %}" method="POST" id="contactForm">
+                            {% csrf_token %}
                             <div class="form-row">
                                 <div class="control-group col-sm-6">
                                     <input type="text" class=" form-control p-4" id="name" name="personname"
@@ -401,7 +408,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
 
 
-    
+
 
 
     <!-- js link -->

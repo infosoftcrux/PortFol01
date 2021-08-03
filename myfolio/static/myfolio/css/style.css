@@ -40,6 +40,9 @@ body{
 .hero-txt{
   margin-top: 150px;
 }
+.typed-text-output{
+  font-size: 3rem;
+}
 .typed-cursor{
   font-size: 47px;
   color: black;
@@ -226,6 +229,7 @@ a:hover{
     font-size: 120px;
   }
   
+  
  
   
 }
@@ -261,8 +265,11 @@ a:hover{
    margin-top: 5px;
    
  }
+ .typed-text-output{
+  font-size: 2rem;
+}
  .maintxt{
-   font-size: 60px;
+   font-size: 58px;
  }
 .qualifitxt{
   font-size: 20px;
