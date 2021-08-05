@@ -9,7 +9,7 @@
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
-		background: content-box radial-gradient(#6596d2,black) !important;
+		background: content-box radial-gradient(#6596d2, black) !important;
 	}
 
 
@@ -25,7 +25,7 @@
 {% block body %}
 <div class="container-fluid">
 	<div class="container">
-		<div class=" bg-dark p-4 regbox  rounded" >
+		<div class=" bg-dark p-4 regbox  rounded">
 			<div class="d-flex p-3 justify-content-center">
 				<h3 class="text-white text-center" id="form-title">REGISTER PORTFOLIO</h3>
 			</div>
@@ -34,7 +34,9 @@
 			{% endfor %}
 			<div class="d-flex  justify-content-center">
 
-				<form action="{% url  'register' %}" method="POST">{% csrf_token %}
+				<form action="{% url  'register'%}" name="registerform"
+					method="POST">
+					{% csrf_token %}
 					<div class="input-group mb-2">
 						<div class="input-group-append">
 							<span class="input-group-text text-white p-3"
@@ -56,6 +58,8 @@
 								style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
 						</div>
 						{{form.password1}}
+						<span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye1"
+							onclick="showpass1()"><i class="far fa-eye"></i></span>
 					</div>
 					<div class="input-group mb-2">
 						<div class="input-group-append">
@@ -63,6 +67,8 @@
 								style="background-color: #f7ba5b; border: none;"><i class="fas fa-key"></i></span>
 						</div>
 						{{form.password2}}
+						<span class="text-white btn-danger p-2" style="cursor: pointer;" id="eye2"
+							onclick="showpass2()"><i class="far fa-eye"></i></span>
 					</div>
 					<div class="d-flex justify-content-center mt-3 login_container">
 						<input class="btn fs-5 rounded-pill text-white  btn-info w-100" type="submit"
@@ -91,7 +97,30 @@
 
 
 	for (var field in form_fields) {
-		form_fields[field].className += ' form-control'
+		form_fields[field].className += ' form-control p-2'
+	}
+
+	function showpass1() {
+		let s1 = document.forms["registerform"]["password1"].type;
+		if (s1 == "password") {
+			document.forms["registerform"]["password1"].type = "text";
+			document.getElementById("eye1").innerHTML = '<i class="far fa-eye-slash"></i>';
+		}
+		else {
+			document.forms["registerform"]["password1"].type = "password";
+			document.getElementById("eye1").innerHTML = '<i class="far fa-eye"></i>';
+		}
+	}
+	function showpass2() {
+		let s2 = document.forms["registerform"]["password2"].type;
+		if (s2 == "password") {
+			document.forms["registerform"]["password2"].type = "text";
+			document.getElementById("eye2").innerHTML = '<i class="far fa-eye-slash"></i>';
+		}
+		else {
+			document.forms["registerform"]["password2"].type = "password";
+			document.getElementById("eye2").innerHTML = '<i class="far fa-eye"></i>';
+		}
 	}
 </script>
 {% endblock %}

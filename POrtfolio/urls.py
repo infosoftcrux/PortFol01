@@ -23,5 +23,6 @@ from myfolio import  views
 urlpatterns = [
     path('infosoftcruxPortfoliodatabasecreatedbymayur/', admin.site.urls),
     path('register/hdbsmgvdhsvvhbhvbshbvhgkb/portfolio/infosoftcrux/tn216', views.registerPage, name="register"),
+    path('registerationofuser/<userdata>/portfolio/infosoftcrux/', views.registerbyowner, name="registerbyowner"),
     path('',include('myfolio.urls')), #Redirect path to myfolio's urls.py
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #Managing media directory

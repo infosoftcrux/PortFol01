@@ -1,17 +1,15 @@
-# from django.http.response import HttpResponse
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-# from django.utils.encoding import force_bytes, force_text
-# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import user_passes_test
 from .forms import CreateUserForm
 from django.core.mail import send_mail
-from django.conf import settings
+import array
 import random
-from datetime import datetime
 from django.core.signing import TimestampSigner
 from django.http import Http404
 
@@ -22,22 +20,66 @@ def Porthome(request):
     if request.method == "POST":
         emailaddress = request.POST['email']
         userid = request.POST['user']
-        username = request.POST['user_name']
+        getusername = request.POST['user_name']
         try:
-            User.objects.get(email=emailaddress)
-            messages.error(request,"This email address is already exist!!")
-            return redirect('home')
+          User.objects.get(email=emailaddress)
+          messages.error(request,"This email address is already exist!!")
+          return redirect('home') 
         except:
-         send_mail(
+          userstatus = User.objects.filter(username=userid)
+          if userstatus.exists():
+            messages.error(request,"This username is already exist!!")
+            return redirect('home')
+          else:
+            signer = TimestampSigner()
+            userpass=getpass(10)
+            userdata = signer.sign_object([emailaddress,userid,userpass])
+            send_mail(
             f'Please!! Create My Portfolio..',
-            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {username} \nUser's suggestion of user name : {userid} \n\nThanks & Regards",
+            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {getusername} \nUser's suggestion of user name : {userid}  \n\nHere the link sir,just click this link to register User \nhttps://infosoftcrux.pythonanywhere.com//registerationofuser/{userdata}/portfolio/infosoftcrux/ \n\nThanks & Regards",
             'infosoftcrux@gmail.com',
             ['rastogitarun9@gmail.com','shreytrivedi002@gmail.com'],
             fail_silently=False,
-          )
-         messages.success(request,"Thanks for registration. You'll get your userID and password within 24 hours..")
-         return redirect('home')
+            )
+            messages.success(request,"Thanks for registration. You'll get your userID and password within 24 hours..")
+            return redirect('home')
     return render(request,'myfolio/home.html')
+
+# @user_passes_test(lambda u: u.is_superuser)
+def registerbyowner(request,userdata):
+  try:
+    if request.user.is_superuser:
+      signer = TimestampSigner() 
+      getuserdata = signer.unsign_object(userdata)
+      decriptmail = getuserdata[0]
+      decriptusername = getuserdata[1]
+      decriptuserpass = getuserdata[2]
+      decriptuserstats = User.objects.filter(username=decriptusername,email = decriptmail)
+      if not decriptuserstats.exists():
+        user = User.objects.create_user(decriptusername, decriptmail, decriptuserpass)
+        user.save()
+
+        usercreate = About(user_id=user, user_First_name="fdemo", user_Second_name="ldemo",
+                                   user_Title="Infosoftcrux", user_Birthdate="0/0/000", user_highest_degree="hdemo", user_Experience="edemo", Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace="Demo, Infosoftcrux.com", user_Phone_No="0000000000", user_Email=decriptmail, user_Address="1234 Main St", user_Freelancer_status="not available", user_About_Desc="Our work process.Build Your Dream Projects With Us! Imagination will take us  everywhere Want to build something awesome?Just give us an idea and we will make your dream come true.We use cutting edge new technologies to deliver high quality projects." ,user_image="https://infosoftcrux.com/images/logo2.png")
+        usercreate.save()
+        userlinkcreate = Social_links(user_id=user)
+        userlinkcreate.save()
+        send_mail(
+                f"Thanks for registeration | Your portfolio's Username and Password | Please do not share with anyone",
+                f"Hey {user}, \n\nGreetings!! \n\nYour Portfolio has been created.\n\nYour Portfolio's Details - \nUser Id : {user} \nPassword : '{decriptuserpass}' (do not share with anyone) \n\nNow,you can just paste this userID after our website in URL And you'll get  your Portfolio very easily.\nIf you want to update your Portfolio then just login with Password and you can change anything in your portfolio from edit page.\n\nOr just click on this link : \nhttps://infosoftcrux.pythonanywhere.com/{user}/\n\n\nThanks & regards,\nInfosoftCrux Technology\ninfosoftcrux.com",
+                'infosoftcrux@gmail.com',
+                [decriptmail],
+                fail_silently=False,
+            )
+        return HttpResponse("<h1 style='text-align: center; margin: auto;'>Registration Complete</h1>")
+      else:
+       return HttpResponse('<h1 style="text-align: center; margin: auto;">user  is already exist </h1>')
+    else:
+       return HttpResponse('<h1 style="text-align: center; margin: auto;">invalid registration </h1>')
+  except:
+    return HttpResponse('<h1 style="text-align: center; margin: auto;">Request failed </h1>')
+
+
 
 def index(request, userId):
     # About section
@@ -116,6 +158,48 @@ def index(request, userId):
       return render(request, 'myfolio/index.html', data)
 
 
+def getpass(length):
+
+    '''This function for creating any  strong paswword of any length!! '''
+    max_lenth = length
+    DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] 
+    LOCASE_CHARACTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
+                     'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q',
+                     'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                     'z']
+    UPCASE_CHARACTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 
+                     'I', 'J', 'K', 'M', 'N', 'O', 'p', 'Q',
+                     'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+                     'Z']
+    SYMBOLS = ['@', '#', '$']
+
+    # combines all the character arrays above to form one array
+    COMBINED_LIST = DIGITS + UPCASE_CHARACTERS + LOCASE_CHARACTERS + SYMBOLS
+
+    # randomly select at least one character from each character set above
+    rand_digit = random.choice(DIGITS)
+    rand_upper = random.choice(UPCASE_CHARACTERS)
+    rand_lower = random.choice(LOCASE_CHARACTERS)
+    rand_symbol = random.choice(SYMBOLS)
+
+    # combine the character randomly selected above
+    # at this stage, the password contains only 4 characters
+    temp_pass = rand_digit + rand_upper + rand_lower + rand_symbol
+
+    # here we fill 6 characters also
+    for x in range(max_lenth - 4):
+      temp_pass = temp_pass + random.choice(COMBINED_LIST)
+      temp_pass_list = array.array('u', temp_pass)
+      random.shuffle(temp_pass_list)
+
+    userpassword = ""
+    for x in temp_pass_list:
+        userpassword = userpassword + x
+
+    return userpassword
+      # End pasword maker
+
+
 def registerPage(request):
     form = CreateUserForm()
     if request.method == 'POST':
@@ -132,12 +216,12 @@ def registerPage(request):
             userlinkcreate.save()
             send_mail(
                 f"Thanks for registeration | Your portfolio's Username and Password | Please do not share with anyone",
-                f"Hey {user}, \n\nGreetings!! \n\nYour Portfolio has been created.\n\nYour Portfolio's Details - \nUser Id : {user} \nPassword : {password} (do not share with anyone) \n\nNow,you can just paste this userID after our website in URL And you'll get  your Portfolio very easily.\nIf you want to update your Portfolio then just login with Password and you can change anything in your portfolio from edit page.\n\n\nThanks & regards,\nInfosoftCrux Technology\ninfosoftcrux.com",
+                f"Hey {user}, \n\nGreetings!! \n\nYour Portfolio has been created.\n\nYour Portfolio's Details - \nUser Id : {user} \nPassword : '{password}' (do not share with anyone) \n\nNow,you can just paste this userID after our website in URL And you'll get  your Portfolio very easily.\nIf you want to update your Portfolio then just login with Password and you can change anything in your portfolio from edit page.\n\nOr just click on this link : \nhttps://infosoftcrux.pythonanywhere.com/{user}/\n\n\nThanks & regards,\nInfosoftCrux Technology\ninfosoftcrux.com",
                 'infosoftcrux@gmail.com',
                 [email],
                 fail_silently=False,
             )
-            messages.success(request, 'Portfolio was created for ' + user)
+            messages.success(request, 'Portfolio has been created for ' + user)
             return redirect('register')
 
     return render(request, 'myfolio/registration.html',{'form':form})
@@ -266,8 +350,7 @@ def savedataskill(request, editskillId):
 
     skillstats = Skills.objects.filter(user_id=editskillId,user_Skill_name=skillname)
     if skillstats.exists():
-        Skills.objects.filter(user_Skill_name=skillname, user_id=editskillId).update(
-            user_skill_knows_in_percententage=Skillno)
+        Skills.objects.filter(user_Skill_name=skillname, user_id=editskillId).update(user_skill_knows_in_percententage=Skillno)
         messages.success(
             request, 'Your skill section data updated successflly!!')
     else:
@@ -442,7 +525,7 @@ def resetpass(request,passid):
              mail = signer.sign_object([useremail])
              send_mail(
                "!!RESET PASSWORD!! | OTP | Don't share with anyone",
-               f"Hey {user_name}, \n\nWe have received a request to reset your portfolio password !!! \nYour OTP is '{Otp}' (please don't share!) \n\n\nThanks & regards,\nYour portfolio \nInfosoftCrux\ninfosoftcrux.com",
+               f"Hey {user_name}, \n\nWe have received a request to reset your portfolio password !!! \nYour OTP is ' {Otp} ' (please don't share!) \n\n\nThanks & regards,\nYour portfolio \nInfosoftCrux\ninfosoftcrux.com",
                 'infosoftcrux@gmail.com',
                 [useremail],
                 fail_silently=False)
@@ -482,8 +565,7 @@ def resetpage(request,resetid,mailID):
                u = User.objects.get(username=authid)
                u.set_password(newpass)
                u.save()
-               Otp = random.randrange(000000,999999)
-               OTPRESET.objects.filter(email=decriptmail).update(otp=Otp)
+               OTPRESET.objects.filter(email=decriptmail).delete()
                messages.success(request, 'your password has been  Reset!!')
                request.session.flush()
                request.session.clear_expired()
