@@ -36,7 +36,7 @@ def Porthome(request):
             userdata = signer.sign_object([emailaddress,userid,userpass])
             send_mail(
             f'Please!! Create My Portfolio..',
-            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {getusername} \nUser's suggestion of user name : {userid}  \n\nHere the link sir,just click this link to register User \nhttps://infosoftcrux.pythonanywhere.com//registerationofuser/{userdata}/portfolio/infosoftcrux/ \n\nThanks & Regards",
+            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {getusername} \nUser's suggestion of user name : {userid}  \n\nHere the link sir,just click this link to register User \nhttps://infosoftcrux.pythonanywhere.com/registerationofuser/{userdata}/portfolio/infosoftcrux/ \n\nFor admin login link :\nhttps://infosoftcrux.pythonanywhere.com/infosoftcruxPortfoliodatabasecreatedbymayur/ \n\nThanks & Regards",
             'infosoftcrux@gmail.com',
             ['rastogitarun9@gmail.com','shreytrivedi002@gmail.com'],
             fail_silently=False,
@@ -89,7 +89,6 @@ def index(request, userId):
         messages.error(request,"Your Portfolio dosen't exist!!. So please first register your folio then try again later!!")
         return redirect('home')
     else:
-
       # Quality section
       educa = Education.objects.filter(user_id=userId)
       expe = Experience.objects.filter(user_id=userId)
