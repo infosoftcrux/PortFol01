@@ -20,7 +20,9 @@ def Porthome(request):
     if request.method == "POST":
         emailaddress = request.POST['email']
         userid = request.POST['user']
-        getusername = request.POST['user_name']
+        tempgetusername = request.POST['user_name']
+        actualgetusername = tempgetusername.split()
+        getusername = ('_').join(actualgetusername)
         try:
           User.objects.get(email=emailaddress)
           messages.error(request,"This email address is already exist!!")
@@ -460,7 +462,9 @@ def savedataproject(request, editproId):
   if editproId == passId:
     # for Project section
     proname = request.POST['proname']
-    procat = request.POST['procat']
+    temmpprocat = request.POST['procat']
+    actualprocat = temmpprocat.split()
+    procat = ('_').join(actualprocat)
     proimage = request.POST['proimage']
     prolink = request.POST['prolink']
     prodesc = request.POST['prodesc']
