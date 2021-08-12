@@ -135,7 +135,7 @@ def index(request, userId):
             fail_silently=False,
             )
 
-         messages.success(request, "Thanks for contact us.I'll contact you soon...")
+         messages.success(request, "Thanks for contacting us.I'll contact you soon...")
          return redirect('myfoliohome', userId)
 
       # social_skill  section
@@ -217,7 +217,7 @@ def registerPage(request):
             userlinkcreate.save()
             send_mail(
                 f"Thanks for registeration | Your portfolio's Username and Password | Please do not share with anyone",
-                f"Hey {user}, \n\nGreetings!! \n\nYour Portfolio has been created.\n\nYour Portfolio's Details - \nUser Id : {user} \nPassword : '{password}' (do not share with anyone) \n\nNow,you can just paste this userID after our website in URL And you'll get  your Portfolio very easily.\nIf you want to update your Portfolio then just login with Password and you can change anything in your portfolio from edit page.\n\nOr just click on this link : \nhttps://infosoftcrux.pythonanywhere.com/{user}/\n\n\nThanks & regards,\nInfosoftCrux Technology\ninfosoftcrux.com",
+                f"Hey {user}, \n\nGreetings!! \n\nYour Portfolio has been created.\n\nYour Portfolio's Details - \nUser Id : {user} \nPassword : '{password}' (do not share with anyone) \n\nNow,you can just paste this userID after our website in URL And you'll get  your Portfolio very easily.\nIf you want to update your Portfolio then just login with Password and you can change anything in your portfolio from edit page.\n\nOr just click on this link : \nhttps://edufusion.in/{user}/\n\n\nThanks & regards,\nInfosoftCrux Technology\ninfosoftcrux.com",
                 'infosoftcrux@gmail.com',
                 [email],
                 fail_silently=False,
