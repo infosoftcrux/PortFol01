@@ -19,26 +19,26 @@ from django.http import Http404
 def Porthome(request):
     if request.method == "POST":
         emailaddress = request.POST['email']
-        userid = request.POST['user']
-        tempgetusername = request.POST['user_name']
-        actualgetusername = tempgetusername.split()
-        getusername = ('_').join(actualgetusername)
+        username = request.POST['user_name']
+        tempgetuserid = request.POST['user']
+        actualgetuserid = tempgetuserid .split()
+        getuserid = ('').join(actualgetuserid)
         try:
           User.objects.get(email=emailaddress)
           messages.error(request,"This email address is already exist!!")
           return redirect('home') 
         except:
-          userstatus = User.objects.filter(username=userid)
+          userstatus = User.objects.filter(username=getuserid)
           if userstatus.exists():
             messages.error(request,"This username is already exist!!")
             return redirect('home')
           else:
             signer = TimestampSigner()
             userpass=getpass(10)
-            userdata = signer.sign_object([emailaddress,userid,userpass])
+            userdata = signer.sign_object([emailaddress,getuserid,userpass])
             send_mail(
             f'Please!! Create My Portfolio..',
-            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {getusername} \nUser's suggestion of user name : {userid}  \n\nHere the link sir,just click this link to register User \nhttps://infosoftcrux.pythonanywhere.com/registerationofuser/{userdata}/portfolio/infosoftcrux/ \n\nFor admin login link :\nhttps://infosoftcrux.pythonanywhere.com/infosoftcruxPortfoliodatabasecreatedbymayur/ \n\nThanks & Regards",
+            f"Hello sir, \n\nSomeone requset you for make him portfolio, \nUser details :- \n\nUser's email address : {emailaddress} \nUser's name : {username} \nUser's suggestion of user name : {getuserid}  \n\nHere the link sir,just click this link to register User \nhttps://infosoftcrux.pythonanywhere.com/registerationofuser/{userdata}/portfolio/infosoftcrux/ \n\nFor admin login link :\nhttps://infosoftcrux.pythonanywhere.com/infosoftcruxPortfoliodatabasecreatedbymayur/ \n\nThanks & Regards",
             'infosoftcrux@gmail.com',
             ['rastogitarun9@gmail.com','shreytrivedi002@gmail.com'],
             fail_silently=False,
@@ -113,6 +113,12 @@ def index(request, userId):
       pro_status = True
       if proj.exists() == False:
         pro_status = False
+
+      # for cv status
+      cv = About.objects.get(user_id = userId).user_cv_link
+      cv_status = True
+      if cv == "":
+        cv_status = False
       
 
       # Contact section
@@ -155,7 +161,7 @@ def index(request, userId):
          github = item.github_link
 
       data = {'skill': Skl, 'skill_status': skill_status, 'Edu': educa, 'Exp': expe, 'edu_status': edu_status, 'prostat':pro_status, 'exp_status': exp_status,
-            'about': abt, 'project': proj, 'fbk': fblink, 'kag': kaggle, 'insta': insta, 'linkd': linkdin, 'twt': twitter, 'git': github}
+            'about': abt, 'project': proj, 'fbk': fblink, 'kag': kaggle, 'insta': insta, 'linkd': linkdin, 'twt': twitter, 'git': github,'cvstatus':cv_status}
       return render(request, 'myfolio/index.html', data)
 
 
@@ -317,6 +323,7 @@ def savedataabout(request, editaboutId):
     if request.method == 'POST':
         # for  About section
         fname = request.POST['fname']
+        checkimage = request.POST['pimage']
         lname = request.POST['lname']
         dob = request.POST['dob']
         utitle = request.POST['utitle']
@@ -330,9 +337,18 @@ def savedataabout(request, editaboutId):
         Abot = request.POST['About']
         cvlink = request.POST['cvlink']
     try:
+     absoluteimage = checkimage
+     # Handling google drive photos
+     checkimagestatus = checkimage.find('drive.google.com')
+     alreadyimagesetStatus = checkimage.find('https://drive.google.com/uc?export=view&id')
+     if checkimagestatus != -1 and alreadyimagesetStatus == -1:
+       viewinimage = checkimage.find('/view?')
+       # Extract id of image
+       imageid= checkimage[32:viewinimage]
+       absoluteimage = f"https://drive.google.com/uc?export=view&id={imageid}"
      About.objects.filter(user_id=editaboutId).update(user_First_name=fname, user_Second_name=lname, user_Title=utitle, user_Birthdate=dob, user_highest_degree=hdegree, user_Experience=exp,
                                                      Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace=animetxt, user_Phone_No=phonno, user_Email=uemail, user_Address=address,
-                                                     user_Freelancer_status=freestatus, user_About_Desc=Abot, user_image=request.POST['pimage'], user_cv_link=cvlink)
+                                                     user_Freelancer_status=freestatus, user_About_Desc=Abot, user_image=absoluteimage, user_cv_link=cvlink)
      messages.success(request, 'Your About section data updated successflly!!')
      return redirect('savedata', editaboutId)
     except:
@@ -465,10 +481,18 @@ def savedataproject(request, editproId):
     temmpprocat = request.POST['procat']
     actualprocat = temmpprocat.split()
     procat = ('_').join(actualprocat)
-    proimage = request.POST['proimage']
+    procheckimage = request.POST['proimage']
     prolink = request.POST['prolink']
     prodesc = request.POST['prodesc']
-
+    proimage = procheckimage
+    # Handling google drive photos
+    checkimagestatus = procheckimage.find('drive.google.com')
+    alreadyimagesetStatus = procheckimage.find('https://drive.google.com/uc?export=view&id')
+    if checkimagestatus != -1 and alreadyimagesetStatus == -1:
+       viewinimage = procheckimage.find('/view?')
+       # Extract id of image
+       imageid= procheckimage[32:viewinimage]
+       proimage = f"https://drive.google.com/uc?export=view&id={imageid}"
     prostats = Projects.objects.filter(user_id=editproId,project_name=proname)
     if prostats.exists():
         Projects.objects.filter(project_name=proname, user_id=editproId).update(

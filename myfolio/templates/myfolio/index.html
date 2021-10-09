@@ -38,351 +38,375 @@
 
 </head>
 
-<body>
+<body onload="preloader()">
 
-    <!-- ==================================== Navigation Menu ================================== -->
-    <nav class="navbar fixed-top  shadow-sm navbar-expand-lg bg-dark navbar-light py-3 py-lg-0 px-lg-5">
-        <a href="" class="navbar-brand ml-lg-3">
-            <h1 class="m-0 display-5 fs-3 font-weight-bold " style="font-family: 'Dancing Script', cursive;">
-                {% for i in about %}
-                <span
-                    class="text-primary text-capitalize">{{i.user_First_name}}</span><span>{{i.user_Second_name}}</span>
-                {% endfor %}
-            </h1>
-        </a>
-        <!-- button for responsive device -->
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" aria-expanded="false"
-            aria-controls="navbarCollapse" data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse justify-content-end navbar-collapse  px-lg-3" id="navbarCollapse">
-            <div class="navbar-nav  py-0">
-                <a href="#home" class="nav-item  nav-link active">Home</a>
-                <a href="#about" class="nav-item  nav-link ">About</a>
-                <a href="#skill" id="nav_skill" class="nav-item  nav-link ">Skill</a>
-                <a href="#qualification" class=" nav-qual nav-item  nav-link ">Quality</a>
-                {% if prostat %}
-                <a href="#project" class="nav-item nav-link ">Projects</a>
-                {% endif %}
-                <a href="#contact" class="nav-item nav-link ">Contact</a>
-            </div>
+    <!-- preloader -->
+    <div id="preloader">
+        <div class="circle">
+            <div class="dots"></div>
         </div>
-
-    </nav>
-    <!-- ================================ End of Navigation Menu ================================ -->
-
-
-    <!-- =============================== Header section ============================== -->
-    <div class="container-fluid d-flex align-items-center mb-5 py-5" id="home"
-        style="min-height: 100vh; background-color: #e9ecef;">
-
-
-        <div class="container">
-            {% for message in messages%}
-            <div id="thank" class="my-3  text-center p-2 bg-danger rounded-circle">
-
-                <h5 class="text-white">{{message}}</h5>
-
-            </div>
-            {% endfor %}
-
-            <div class="row align-items-center">
-                {% for item in about %}
-                <div class="col-lg-7 hero-txt text-center text-lg-left">
-                    <h3 class="text-muted font-weight-bold mb-3"> Hey, I am</h3>
-                    <h1 class="display-3 maintxt text-uppercase text-white mb-2"
-                        style="-webkit-text-stroke: 4px rgb(0, 0, 0);">{{item.user_First_name}}
-                        {{item.user_Second_name}}</h1>
-                    <h1 class="typed-text-output text-break text-capitalize d-inline font-weight-normal text-dark"
-                        style="font-family: 'EB Garamond', serif;"></h1>
-                    <!-- typed text -->
-                    <div class="typed-text  d-none ">
-                        {{item.Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace}}</div>
-
-                    <!-- button -->
-                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                        <a href="{{item.user_cv_link}}" class="btn btn-danger mr-2" id="cvbtn">Download CV</a>
-                        <a href="#about" class="btn btn-success d-none d-sm-block" id="homeaboutbtn">About me</a>
-                    </div>
-                </div>
-                <!-- image -->
-                <div class="about-img col-lg-6 px-8 pl-lg-0  pb-5 pb-lg-4 ">
-                    <img src="{{item.user_image}}" alt="Profile picture"
-                        class="img-fluid w-100 rounded-circle shadow-sm">
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
     </div>
-    <!-- =============================== End  of Header  ============================== -->
 
-
-    <!-- ================================== About Section  ================================== -->
-    <div class="container-fluid py-5" id="about">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke:1px #dee2e6;">
-                    About
+    <!-- Main content after preloader -->
+    <div id="maincontent">
+        <!-- ==================================== Navigation Menu ================================== -->
+        <nav class="navbar fixed-top  shadow-sm navbar-expand-lg bg-dark navbar-light py-3 py-lg-0 px-lg-5">
+            <a href="" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 display-5 fs-3 font-weight-bold " style="font-family: 'Dancing Script', cursive;">
+                    {% for i in about %}
+                    <span
+                        class="text-primary text-capitalize">{{i.user_First_name}}</span><span>{{i.user_Second_name}}</span>
+                    {% endfor %}
                 </h1>
-                <h1 class="position-absolute text-uppercase text-secondary">About Me</h1>
+            </a>
+            <!-- button for responsive device -->
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" aria-expanded="false"
+                aria-controls="navbarCollapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse justify-content-end navbar-collapse  px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav  py-0">
+                    <a href="#home" id="homebtn" class="nav-item  nav-link active">Home</a>
+                    <a href="#about" class="nav-item  nav-link ">About</a>
+                    <a href="#skill" id="nav_skill" class="nav-item  nav-link ">Skill</a>
+                    <a href="#qualification" class=" nav-qual nav-item  nav-link ">Quality</a>
+                    {% if prostat %}
+                    <a href="#project" class="nav-item nav-link ">Projects</a>
+                    {% endif %}
+                    <a href="#contact" class="nav-item nav-link ">Contact</a>
+                </div>
             </div>
-            <div class="row mt-4 align-items-center">
-                {% for item in about %}
-                <div class="col-lg-12">
-                    <h3 class="mb-5 text-white rounded-circle bg-secondary text-uppercase  text-center font-weight-bold"
-                        style="font-family: 'Times New Roman', Times, serif;">{{item.user_Title}}</h3>
-                    <div class="row mb-3">
-                        <div class="col-sm-6 py-2">
-                            <h6>Name: <span class="text-secondary text-capitalize">{{item.user_First_name}}
-                                    {{item.user_Second_name}}</span></h6>
+
+        </nav>
+        <!-- ================================ End of Navigation Menu ================================ -->
+
+
+        <!-- =============================== Header section ============================== -->
+        <div class="container-fluid d-flex align-items-center mb-5 py-5" id="home"
+            style="min-height: 100vh; background-color: #e9ecef;">
+
+
+            <div class="container">
+                {% for message in messages%}
+                <div id="thank" class="my-3  text-center p-2 bg-danger rounded-circle">
+
+                    <h5 class="text-white">{{message}}</h5>
+
+                </div>
+                {% endfor %}
+
+                <div class="row align-items-center">
+                    {% for item in about %}
+                    <div class="col-lg-7 hero-txt text-center text-lg-left">
+                        <h3 class="text-muted font-weight-bold mb-3"> Hey, I am</h3>
+                        <h1 class="display-3 maintxt text-uppercase text-white mb-2"
+                            style="-webkit-text-stroke: 4px rgb(0, 0, 0);">{{item.user_First_name}}
+                            {{item.user_Second_name}}</h1>
+                        <h1 class="typed-text-output text-break text-capitalize d-inline font-weight-normal text-dark"
+                            style="font-family: 'EB Garamond', serif;"></h1>
+                        <!-- typed text -->
+                        <div class="typed-text  d-none ">
+                            {{item.Titles_you_want_to_show_in_animated_text_and_each_seprate_by_comma_and_oneSpace}}
                         </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Birthdate: <span class="text-secondary">{{item.user_Birthdate}}</span></h6>
+
+                        <!-- button -->
+                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+                            {% if cvstatus %}
+                            <a href="{{item.user_cv_link}}" target="_blank" class="btn btn-danger mr-2"
+                                id="cvbtn">Download CV</a>
+                            {% endif %}
+                            <a href="#about" class="btn btn-success d-none d-sm-block" id="homeaboutbtn">About me</a>
                         </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Degree: <span class="text-capitalize text-secondary">{{item.user_highest_degree}}</span>
-                            </h6>
+                    </div>
+                    <!-- image -->
+                    <div class="about-img col-lg-6 px-8 pl-lg-0  pb-5 pb-lg-4 ">
+                        <img src="{{item.user_image}}" alt="Profile picture"
+                            class="img-fluid w-100 rounded-circle shadow-sm">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+        <!-- =============================== End  of Header  ============================== -->
+
+
+        <!-- ================================== About Section  ================================== -->
+        <div class="container-fluid py-5" id="about">
+            <div class="container">
+                <div class="position-relative d-flex align-items-center justify-content-center">
+                    <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke:1px #dee2e6;">
+                        About
+                    </h1>
+                    <h1 class="position-absolute text-uppercase text-secondary">About Me</h1>
+                </div>
+                <div class="row mt-4 align-items-center">
+                    {% for item in about %}
+                    <div class="col-lg-12">
+                        <h3 class="mb-5 text-white rounded-circle bg-secondary text-uppercase  text-center font-weight-bold"
+                            style="font-family: 'Times New Roman', Times, serif;">{{item.user_Title}}</h3>
+                        <div class="row mb-3">
+                            <div class="col-sm-6 py-2">
+                                <h6>Name: <span class="text-secondary text-capitalize">{{item.user_First_name}}
+                                        {{item.user_Second_name}}</span></h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Birthdate: <span class="text-secondary">{{item.user_Birthdate}}</span></h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Degree: <span
+                                        class="text-capitalize text-secondary">{{item.user_highest_degree}}</span>
+                                </h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Experience: <span
+                                        class="text-capitalize text-secondary">{{item.user_Experience}}</span>
+                                </h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Phone: <span><a href="tel:+91{{item.user_Phone_No}}"
+                                            class="text-decoration-none text-secondary">+91{{item.user_Phone_No}}
+                                        </a></span></h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Email: <a class="text-secondary text-decoration-none"
+                                        href="mailto:{{item.user_Email}}">{{item.user_Email}}</a></h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Address: <span class="text-capitalize text-secondary">{{item.user_Address}}</span>
+                                </h6>
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <h6>Freelance: <span
+                                        class="text-capitalize text-secondary">{{item.user_Freelancer_status}}</span>
+                                </h6>
+                            </div>
+
                         </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Experience: <span class="text-capitalize text-secondary">{{item.user_Experience}}</span>
-                            </h6>
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Phone: <span><a href="tel:+91{{item.user_Phone_No}}"
-                                        class="text-decoration-none text-secondary">+91{{item.user_Phone_No}}
-                                    </a></span></h6>
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Email: <a class="text-secondary text-decoration-none"
-                                    href="mailto:{{item.user_Email}}">{{item.user_Email}}</a></h6>
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Address: <span class="text-capitalize text-secondary">{{item.user_Address}}</span>
-                            </h6>
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <h6>Freelance: <span
-                                    class="text-capitalize text-secondary">{{item.user_Freelancer_status}}</span></h6>
-                        </div>
+                        <p class=" text-break text-capitalize discriptext">
+                            {{item.user_About_Desc}}</p>
 
                     </div>
-                    <p class=" text-break text-capitalize discriptext">
-                        {{item.user_About_Desc}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- =============================== End of About Section  ============================== -->
 
+        <!-- ======================== Skill Section ======================== -->
+        <div class="container-fluid py-5" id="skill">
+            <div class="container">
+                <div class="position-relative  d-flex align-items-center justify-content-center">
+                    <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Skills
+                    </h1>
+                    <h1 class="position-absolute text-uppercase text-secondary"> My Skills</h1>
+                </div>
+                <!-- skill -->
+                <div class="row align-items-center">
+                    {% for item in skill %}
+                    <div class="skill col-md-6  mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-width-bold text-uppercase">{{item.user_Skill_name}}</h6>
+                            <h6 class="font-width-bold">{{item.user_skill_knows_in_percententage}}%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-dark " role="progressbar"
+                                aria-valuenow="{{item.user_skill_knows_in_percententage}}" aria-valuemax="100"
+                                aria-valuemin="0"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <!-- ======================== End of  Skill Section ======================== -->
+
+
+        <!-- ======================== Qualification Start ======================== -->
+        <div class="container-fluid py-5 nav-qual" id="qualification">
+            <div class="container">
+                <div class="position-relative d-flex align-items-center justify-content-center">
+                    <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Quality
+                    </h1>
+                    <h1 class="position-absolute text-uppercase qualifitxt text-secondary"> Education & Experience</h1>
+                </div>
+                <div class="row mt-5 align-items-center">
+                    <div class="col-lg-12" id="edu">
+                        <h3 class="font-weight-bold" style="text-decoration: underline;">My Education</h3>
+                        <div class=" pt-lg-2 pt-md-2 pl-4 ml-2">
+                            {% for i in Edu %}
+                            <div class="position-relative ex-me mb-4">
+                                <i class="fas fa-arrow-circle-right text-secondary position-absolute"
+                                    style="top: 2px; left: -35px; font-size: 22px;"></i>
+                                <h5 class="font-width-bold text-uppercase mb-1">{{i.Highest_education_name}}</h5>
+                                <strong class="text-capitalize">{{i.Highest_education_college}}</strong>
+                                <p class="mb-2"><small>{{i.Highest_education_year}}</small></p>
+                                <p class="text-capitalize discriptext text-break">{{i.Highest_education_desc}}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="col-lg-12 " id="exp">
+                        <h3 class=" mt-5 font-weight-bold" style="text-decoration: underline;">My Experience</h3>
+                        <div class="pt-2 pl-4 ml-2">
+                            {% for i in Exp %}
+                            <div class="position-relative ex-me mb-4">
+                                <i class="fas fa-arrow-circle-right text-secondary position-absolute"
+                                    style="top: 2px; left: -35px; font-size: 22px;"></i>
+                                <h5 class="font-width-bold mb-1 text-uppercase">{{i.Experience_name}}</h5>
+                                <strong class="text-capitalize">{{i.compony}}</strong>
+                                <p class="mb-2"><small>{{i.year_duration}}</small></p>
+                                <p class="text-capitalize discriptext text-break">{{i.Desc_about_Experience}}</p>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ======================== End of  Qualification Start ======================== -->
+
+
+
+        {% if prostat %}
+        <!-- ======================== Portfolio Section ======================== -->
+        <div class="container-fluid  pt-5 py-5  pb-3" id="project">
+
+            <div class="container">
+                <div class="service-h4 mb-5 position-relative d-flex align-items-center justify-content-center">
+                    <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Project
+                    </h1>
+                    <h1 class="position-absolute text-uppercase text-secondary">My Projects</h1>
+                </div>
+
+                <!-- menu -->
+                <div class="row">
+
+                    <div class="col-12 text-center mb-2">
+                        <ul class="list-inline mb-4" id="portfolio-filters">
+                            <li class="btn btn-sm btn-outline-secondary m-1 active" id="allbtn" data-filter="*">All</li>
+                            {% for item in project %}
+                            <li class="btn editbtn filtercatbtn btn-sm btn-outline-secondary m-1"
+                                data-filter=".ct{{item.project_catagory_name}}">{{item.project_catagory_name}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container my-2">
+            <div class="row portfolio-container">
+                {% for item in project %}
+                <div class="rounded col-md-6 my-3 portfolio-item  ct{{item.project_catagory_name}} ">
+                    <div class=" card mb-2" style="border: none;">
+                        <img class="img-fluid card-img-top" src="{{item.project_image}}" alt="projectphoto">
+                        <div class="portfolio-btn bg-dark videostatus d-flex align-items-center justify-content-center">
+                            <a href="{{item.project_youTubevideo_link}}" data-lity data-lity-desc="video of project">
+                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
+                            </a>
+                        </div>
+                        <div class="card-body cardBodyDetail  ">
+                            <div class="text-center card-title proname text-capitalize my-3 font-weight-bold text-dark"
+                                style="background-color: #e9ecef;">{{item.project_name}}</div>
+                            <p class="text-capitalize discriptext card-text text-break">
+                                {{item.project_description}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
-    </div>
-    <!-- =============================== End of About Section  ============================== -->
 
-    <!-- ======================== Skill Section ======================== -->
-    <div class="container-fluid py-5" id="skill">
-        <div class="container">
-            <div class="position-relative  d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Skills</h1>
-                <h1 class="position-absolute text-uppercase text-secondary"> My Skills</h1>
-            </div>
-            <!-- skill -->
-            <div class="row align-items-center">
-                {% for item in skill %}
-                <div class="skill col-md-6  mb-4">
-                    <div class="d-flex justify-content-between">
-                        <h6 class="font-width-bold text-uppercase">{{item.user_Skill_name}}</h6>
-                        <h6 class="font-width-bold">{{item.user_skill_knows_in_percententage}}%</h6>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-dark " role="progressbar"
-                            aria-valuenow="{{item.user_skill_knows_in_percententage}}" aria-valuemax="100"
-                            aria-valuemin="0"></div>
-                    </div>
+
+        <!-- ======================== End portfolio Section ======================== -->
+        {% endif %}
+
+
+        <!-- ======================== Contact Section ======================== -->
+        <div class="container-fluid   py-5  pb-3" id="contact" style="margin-top: 2rem;">
+            <div class="container">
+                <div class="position-relative d-flex align-items-center justify-content-center">
+                    <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact
+                    </h1>
+                    <h1 class="position-absolute text-uppercase text-secondary">Contact Me</h1>
                 </div>
-                {% endfor %}
-
-            </div>
-        </div>
-    </div>
-    <!-- ======================== End of  Skill Section ======================== -->
-
-
-    <!-- ======================== Qualification Start ======================== -->
-    <div class="container-fluid py-5 nav-qual" id="qualification">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Quality</h1>
-                <h1 class="position-absolute text-uppercase qualifitxt text-secondary"> Education & Experience</h1>
-            </div>
-            <div class="row mt-5 align-items-center">
-                <div class="col-lg-12" id="edu">
-                    <h3 class="font-weight-bold" style="text-decoration: underline;">My Education</h3>
-                    <div class=" pt-lg-2 pt-md-2 pl-4 ml-2">
-                        {% for i in Edu %}
-                        <div class="position-relative ex-me mb-4">
-                            <i class="fas fa-arrow-circle-right text-secondary position-absolute"
-                                style="top: 2px; left: -35px; font-size: 22px;"></i>
-                            <h5 class="font-width-bold text-uppercase mb-1">{{i.Highest_education_name}}</h5>
-                            <strong class="text-capitalize">{{i.Highest_education_college}}</strong>
-                            <p class="mb-2"><small>{{i.Highest_education_year}}</small></p>
-                            <p class="text-capitalize discriptext text-break">{{i.Highest_education_desc}}</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <!-- Experience -->
-                <div class="col-lg-12 " id="exp">
-                    <h3 class=" mt-5 font-weight-bold" style="text-decoration: underline;">My Experience</h3>
-                    <div class="pt-2 pl-4 ml-2">
-                        {% for i in Exp %}
-                        <div class="position-relative ex-me mb-4">
-                            <i class="fas fa-arrow-circle-right text-secondary position-absolute"
-                                style="top: 2px; left: -35px; font-size: 22px;"></i>
-                            <h5 class="font-width-bold mb-1 text-uppercase">{{i.Experience_name}}</h5>
-                            <strong class="text-capitalize">{{i.compony}}</strong>
-                            <p class="mb-2"><small>{{i.year_duration}}</small></p>
-                            <p class="text-capitalize discriptext text-break">{{i.Desc_about_Experience}}</p>
-                        </div>
-                        {% endfor %}
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ======================== End of  Qualification Start ======================== -->
-
-
-
-    {% if prostat %}
-    <!-- ======================== Portfolio Section ======================== -->
-    <div class="container-fluid  pt-5 py-5  pb-3" id="project">
-
-        <div class="container">
-            <div class="service-h4 mb-5 position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Project</h1>
-                <h1 class="position-absolute text-uppercase text-secondary">My Projects</h1>
-            </div>
-
-            <!-- menu -->
-            <div class="row">
-
-                <div class="col-12 text-center mb-2">
-                    <ul class="list-inline mb-4" id="portfolio-filters">
-                        <li class="btn btn-sm btn-outline-secondary m-1 active" data-filter="*">All</li>
-                        {% for item in project %}
-                        <li class="btn editbtn filtercatbtn btn-sm btn-outline-secondary m-1"
-                            data-filter=".ct{{item.project_catagory_name}}">{{item.project_catagory_name}}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row portfolio-container">
-            {% for item in project %}
-            <div class="rounded col-md-6 my-2 portfolio-item  ct{{item.project_catagory_name}} ">
-                <div class=" card mb-2" style="border: none;">
-                    <img class="img-fluid card-img-top w-100" src="{{item.project_image}}" alt="projectphoto">
-                    <div
-                        class="portfolio-btn card-body bg-dark videostatus d-flex align-items-center justify-content-center">
-                        <a href="{{item.project_youTubevideo_link}}" data-lity data-lity-desc="video of project">
-                            <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                        </a>
-                    </div>
-                    <div class="card-body  p-0 ">
-                        <div class="text-center card-title proname text-capitalize my-3 font-weight-bold text-dark"
-                            style="background-color: #e9ecef;">{{item.project_name}}</div>
-                        <p class="text-capitalize discriptext card-text text-break">
-                            {{item.project_description}}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
-
-    <!-- ======================== End portfolio Section ======================== -->
-    {% endif %}
-
-
-    <!-- ======================== Contact Section ======================== -->
-    <div class="container-fluid   py-5  pb-3" id="contact" style="margin-top: 2rem;">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact
-                </h1>
-                <h1 class="position-absolute text-uppercase text-secondary">Contact Me</h1>
-            </div>
-            <div class="row justify-content-center mt-4 ">
-                <div class="col-lg-8">
-                    <div class="contact-form text-center">
-                        {% for i in about %}
-                        <form action="{% url 'myfoliohome' i.user_id  %}" method="POST" id="contactForm">
-                            {% csrf_token %}
-                            <div class="form-row">
-                                <div class="control-group col-sm-6">
-                                    <input type="text" class=" form-control p-4" id="name" name="personname"
-                                        placeholder="Enter your name" required='required'
-                                        data-validation-required-message='Please Enter your name' />
+                <div class="row justify-content-center mt-4 ">
+                    <div class="col-lg-8">
+                        <div class="contact-form text-center">
+                            {% for i in about %}
+                            <form action="{% url 'myfoliohome' i.user_id  %}" method="POST" id="contactForm">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="control-group col-sm-6">
+                                        <input type="text" class=" form-control p-4" id="name" name="personname"
+                                            placeholder="Enter your name" required='required'
+                                            data-validation-required-message='Please Enter your name' />
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                    <div class="control-group col-sm-6">
+                                        <input type="email" class="form-control p-4" id="email"
+                                            placeholder="Enter your Email id" name="personemail" required='required'
+                                            data-validation-required-message='Please Enter your Correct email id' />
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="control-grop">
+                                    <input type="text" class="form-control p-4" name="ptitle" id="subject"
+                                        placeholder="Enter your Query titile" required='required'
+                                        data-validation-required-message='Please Enter your title' />
                                     <p class="help-block text-danger"></p>
                                 </div>
-                                <div class="control-group col-sm-6">
-                                    <input type="email" class="form-control p-4" id="email"
-                                        placeholder="Enter your Email id" name="personemail" required='required'
-                                        data-validation-required-message='Please Enter your Correct email id' />
+                                <div class="control-group">
+                                    <textarea class="form-control py-3 px-4" name="personmsg" id="message" rows="5"
+                                        placeholder="Enter your Message" required></textarea>
                                     <p class="help-block text-danger"></p>
                                 </div>
-                            </div>
-                            <div class="control-grop">
-                                <input type="text" class="form-control p-4" name="ptitle" id="subject"
-                                    placeholder="Enter your Query titile" required='required'
-                                    data-validation-required-message='Please Enter your title' />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                <textarea class="form-control py-3 px-4" name="personmsg" id="message" rows="5"
-                                    placeholder="Enter your Message" required></textarea>
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-secondary" type="submit" id="sendMessage">Send
-                                    Message</button>
-                            </div>
-                        </form>
-                        {% endfor %}
+                                <div>
+                                    <button class="btn btn-outline-secondary" type="submit" id="sendMessage">Send
+                                        Message</button>
+                                </div>
+                            </form>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- ======================== End of Contact Section ======================== -->
+        <!-- ======================== End of Contact Section ======================== -->
 
-    <!-- ======================== Footer Section ======================== -->
-    <div class="container-fluid bg-dark text-white mt-5 py-1 px-sm-1 px-md-5">
-        <div class="container text-center py-5">
-            <h1 class="mb-5 font-weight-bold">Get in touch</h1>
-            <div class="d-flex socialbtn justify-content-center flex-wrap  social mb-4">
-                <a href="{{ kag }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-kaggle"></i></a>
-                <a href="{{ git }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-github"></i></a>
-                <a href="{{linkd}}" class="btn  btn-light btn-social mr-3"><i class="fab fa-linkedin-in"></i></a>
-                <a href="{{ twt }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-twitter"></i></a>
-                <a href="{{ fbk }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-facebook-f"></i></a>
-                <a href="{{ insta }}" class="btn  btn-light btn-social mr-3"><i class="fab fa-instagram-square"></i></a>
+        <!-- ======================== Footer Section ======================== -->
+        <div class="container-fluid bg-dark text-white mt-5 py-1 px-sm-1 px-md-5">
+            <div class="container text-center py-5">
+                <h1 class="mb-5 font-weight-bold">Get in touch</h1>
+                <div class="d-flex socialbtn justify-content-center flex-wrap  social mb-4">
+                    <a href="{{ kag }}" target='_blank' class="btn  btn-light btn-social mr-3"><i
+                            class="fab fa-kaggle"></i></a>
+                    <a href="{{ git }}" target='_blank' class="btn  btn-light btn-social mr-3"><i
+                            class="fab fa-github"></i></a>
+                    <a href="{{linkd}}" target='_blank' class="btn  btn-light btn-social mr-3"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="{{ twt }}" target='_blank' class="btn  btn-light btn-social mr-3"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="{{ fbk }}" target='_blank' class="btn  btn-light btn-social mr-3"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="{{ insta }}" target='_blank' class="btn  btn-light btn-social mr-3"><i
+                            class="fab fa-instagram-square"></i></a>
+
+                </div>
+                {% for id in about %}
+                <a href="{% url  'login' id.user_id   %}" target="_blank"
+                    class="btn my-2 btn-outline-secondary text-danger" style="font-size: 20px;">Edit Folio / Login</a>
+                {% endfor %}
 
             </div>
-            {% for id in about %}
-            <a href="{% url  'login' id.user_id   %}" class="btn my-2 btn-outline-secondary text-danger"
-                style="font-size: 20px;">Edit Folio / Login</a>
-            {% endfor %}
-
         </div>
+        <!-- ======================== End of Footer Section ======================== -->
     </div>
-    <!-- ======================== End of Footer Section ======================== -->
-
 
     <!-- js code -->
 
@@ -415,6 +439,14 @@
     <script src="{%static 'myfolio/js/main.js'%}"></script>
 
     <script>
+        let preload = document.querySelector('#preloader')
+        let mncontent = document.querySelector('#maincontent');
+        function preloader(){
+            preload.style.display = 'none';
+            mncontent.style.display = 'block';
+            document.querySelector('#allbtn').click();
+            document.querySelector('#homebtn').click();
+        }
         // js for content hide
         (function ($) {
             "use strict"
@@ -467,6 +499,15 @@
                 else
                     seen[txt] = true;
             });
+
+            // for portfolio project photos
+            $('.card-img-top').each(function () {
+                let photolink = $(this).attr('src');
+                if (photolink == '') {
+                    $(this).addClass('d-none');
+                    $(this).siblings('.card-body').addClass('active');
+                }
+            })
 
 
         })(jQuery);

@@ -54,7 +54,7 @@ class Projects (models.Model):
     project_name= models.CharField(max_length = 500,primary_key= True)
     project_catagory_name = models.CharField(max_length = 150)
     project_description = models.CharField(max_length = 20000)
-    project_image = models.URLField()
+    project_image = models.URLField(blank=True)
     project_youTubevideo_link = models.URLField( blank = True )
     
     def __str__(self):
